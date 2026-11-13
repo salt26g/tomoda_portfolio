@@ -1,0 +1,146 @@
+.bar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 24px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid #ddd;
+}
+
+.label {
+  display: inline-block;
+  min-width: 80px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #343434;
+}
+
+.modeRow .label {
+  font-size: 23px;
+  font-weight: 200;
+}
+.groupRow .label {
+  padding: 8px 0;
+}
+
+/* ------ 絞り込みモード ------ */
+.modeRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px;
+}
+
+.modeOption {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #343434;
+  cursor: pointer;
+}
+
+/* input自体は見た目を消して、隣の .modeBox を代わりに表示する */
+.modeInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.modeBox {
+  position: relative;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #999;
+  border-radius: 2px;
+  background-color: #fff;
+}
+
+.modeInput:checked + .modeBox::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  background: #343434;
+  border-radius: 1px;
+}
+
+.modeInput:focus-visible + .modeBox {
+  outline: 2px solid #343434;
+  outline-offset: 2px;
+}
+
+/* ------ ジャンル / イメージ / ターゲット / 制作 ------ */
+.groupRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 12px 24px;
+}
+
+.pills {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pill {
+  padding: 8px 18px;
+  border: 1px solid #999;
+  border-radius: 4px;
+  background: #fff;
+  color: #343434;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.pill:hover {
+  border-color: #343434;
+}
+
+.pillActive {
+  background: #343434;
+  border-color: #343434;
+  color: #fff;
+}
+
+/* ------ 並べ替え ------ */
+.sortRow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px; /* 件数と並べ替えの間隔 */
+}
+
+/* 件数:数字だけ大きく太くして、「件」は小さく控えめに */
+.count {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.countNumber {
+  margin-right: 2px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #343434;
+}
+
+.sortSelect {
+  appearance: none;
+  padding: 8px 32px 8px 14px;
+  border: 1px solid #343434;
+  border-radius: 4px;
+  background: #fff
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23333'/%3E%3C/svg%3E")
+    no-repeat right 12px center;
+  background-size: 10px 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #343434;
+  cursor: pointer;
+}

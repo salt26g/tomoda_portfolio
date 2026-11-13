@@ -1,0 +1,99 @@
+.grid {
+  display: grid;
+  /* minmax(0, 1fr) にすると、中身(画像)が大きくても列が押し広げられず、常に均等な3列になる */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 40px 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* 中身に引っ張られて広がらないようにする */
+}
+
+/* カード全体がリンク（aタグ）。見た目は普通の文字のまま */
+.link {
+  display: flex;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* マウスを乗せたら、サムネイルが少し薄くなる */
+.link:hover .thumb {
+  opacity: 0.8;
+}
+
+/* ------ サムネイル：列の幅いっぱいの正方形 ------ */
+.thumb {
+  position: relative;  /* 中の画像を、この枠を基準に配置するため */
+  width: 100%;
+  aspect-ratio: 1 / 1; /* 正方形 */
+  overflow: hidden;    /* 枠からはみ出した部分は隠す */
+  background: #fff;
+  transition: opacity 0.3s ease;
+}
+
+/* 画像：縦は正方形の高さに合わせ、横は縦横比のまま自動で決まる */
+.thumb img {
+  position: absolute;  /* 画像の大きさが、枠や列の幅に影響しなくなる */
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%); /* 左右中央に置く */
+  height: 100%;
+  width: auto;
+  max-width: none;     /* リセットCSSの「max-width: 100%」を打ち消す */
+}
+
+/* 日付（2026.07.15） */
+.date {
+  display: block;
+  margin: 14px 0 4px;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: #888;
+  line-height: 25px;
+}
+
+.badge {
+  display: flex;
+  gap: 8px;
+  margin: 2px 0 6px;
+  color: #666;
+}
+
+.badge span {
+  padding: 2px 8px;
+  border: 1px solid #666;
+  border-radius: 3px;
+  font-size: 14px;
+  margin-top: -1px;
+}
+
+.title {
+  margin: 0 0 6px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #343434;
+}
+
+.empty {
+  padding: 60px 0;
+  text-align: center;
+  color: #888;
+}

@@ -1,0 +1,23 @@
+/* 詳細ページの「[ジャンル] 実務制作」。
+   WORKS一覧のカード(WorksGrid.module.css の .badge)をもとにしていて、
+   違うのは「枠の余白を広げている」ことと、それに合わせて文字を縦の中央にそろえていること */
+.badge {
+  display: flex;
+  align-items: center; /* 枠が大きいので、「実務制作」の文字を枠の縦の中央にそろえる */
+  flex-wrap: wrap;     /* せまい画面で入りきらないときだけ、折り返す */
+  gap: 8px;            /* ジャンルと制作の種類の間隔(WORKSと同じ) */
+  color: #666;
+}
+
+/* 制作の種類(文字だけ) */
+.production {
+  font-size: 15px;
+}
+
+/* 枠つきのジャンル。余白は WORKS(2px 8px)より、上下左右とも3pxずつ広い */
+.genre {
+  padding: 5px 11px;
+  border: 1px solid #666;
+  border-radius: 3px;
+  font-size: 14px;
+}

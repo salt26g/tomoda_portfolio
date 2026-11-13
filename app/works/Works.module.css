@@ -1,0 +1,11 @@
+.main{
+  width: 76vw;
+  display: block;
+  margin: 0 0 0 auto;
+  padding: 50px;
+}
+@media (max-width: 768px) {
+  .top ul.creative {
+    column-count: 2;
+  }
+}

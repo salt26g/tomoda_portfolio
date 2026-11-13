@@ -1,0 +1,429 @@
+/* 上のエリア:左にギャラリー、右に詳細情報 */
+.contentWrap {
+  display: grid;
+  grid-template-columns: 4fr 5fr;
+  gap: 45px;
+  margin-top: 30px;
+  align-items: start;
+}
+
+/* 左カラム:ギャラリー */
+.gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mainImageWrap {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+  background-color: #fff;
+  transition: opacity 0.3s ease;
+}
+
+@media (hover: hover) {
+  .mainImageWrap:hover {
+    opacity: 0.85;
+  }
+}
+
+.thumbList {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.thumbBtn {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 2px solid transparent;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.thumbActive {
+  border-color: #343434;
+}
+
+/* 右カラム:詳細情報 */
+.infoCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.infoHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap; /* せまい画面で入りきらないときは、日付を下に折り返す */
+  gap: 8px 16px;
+  margin-bottom: 20px;
+}
+
+.date {
+  font-size: 14px;
+  color: #666;
+}
+
+.title {
+  font-size: 27px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.detailList {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin: 0;
+}
+
+.detailRow {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 10px;
+}
+
+.dt {
+  font-weight: bold;
+  color: #343434;
+  font-size: 17px;
+}
+
+.dd {
+  margin: 0;
+  color: #555;
+  word-break: break-all;
+  white-space: pre-line;
+  font-size: 16px;
+  line-height: 30px;
+}
+
+/* 名前などを、言葉の途中(「ミ|ニぎし様」など)で折り返さない。折り返すのは空白のところ(入らないときだけ、どこでも折り返す) */
+.ddKeepWords {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+/* 販売ページのリンク(ECの詳細ページの「楽天URL」と同じ見た目) */
+.dd a {
+  color: #555;
+  text-decoration: underline;
+  transition: opacity 0.3s;
+}
+
+/* マウスを乗せると少し薄くなり、アンダーラインが消える */
+.dd a:hover {
+  text-decoration: none;
+  opacity: 0.7;
+}
+
+/* 上のエリアと、第一案以降を分ける線 */
+.divider {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 50px 0 60px;
+}
+
+/* ------ 第一案・第二案…(スライダー1つぶん) ------ */
+.section {
+  margin-bottom: 70px;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: flex-start; /* 説明が2行以上になっても、ラベルは1行目の高さに置く */
+  gap: 18px;
+}
+
+/* 黒背景・白文字のラベル(「第一案」など) */
+.sectionLabel {
+  display: inline-block;
+  padding: 4px 14px;
+  background-color: #343434;
+  color: #fff;
+  font-size: 17px;
+  font-weight: bold;
+  line-height: 1.6;
+  letter-spacing: 0.1em;
+  border-radius: 2px;
+  flex: 0 0 auto; /* 説明が長くても、ラベルは縮めない */
+}
+
+.sectionDesc {
+  flex: 1 1 0; /* ラベルの右の残りの幅いっぱいに広げ、長いときはその中で改行する */
+  min-width: 0;
+  margin: 0;
+  padding-top: 3px; /* 1行目の高さを、ラベルの文字の高さにそろえる */
+  line-height: 1.8;
+  white-space: pre-line; /* データの \n を、実際の改行として表示する */
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: #343434;
+}
+
+/* 説明の下の箇条書き。頭の「・」は表示だけで付けるので、データには書かなくていい */
+.notes {
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 15px;
+  line-height: 1.9;
+  letter-spacing: 0.05em;
+  color: #343434;
+}
+
+.notes li::before {
+  content: "・";
+}
+
+/* 関連デザイン(WEBデザイン詳細ページと同じ) */
+.related {
+  margin-top: 0; /* 上の「.section」にすでに下の余白(70px)があるので足さない */
+}
+
+.relatedTitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.relatedList {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.relatedImageWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background-color: #eee;
+}
+
+/* 画像いっぱいに広がるリンク。マウスを乗せると少し薄くなる(WORKS一覧と同じ動き) */
+.relatedLink {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transition: opacity 0.3s ease;
+}
+
+.relatedLink:hover,
+.relatedLink:focus-visible {
+  opacity: 0.8;
+}
+
+/* モーダル */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 40px;
+  animation: modalFadeIn 0.4s ease both; /* 背景がふわっと暗くなる */
+}
+
+.modalInner {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  max-height: 90vh;
+  background-color: #fff;
+  display: grid;
+  /* 左の大きい画像 : 右の小画像 = 2.55 : 1。
+     小画像は「2列 × 5個」で、5個ぶんの高さが大きい画像の高さとちょうど同じになる比率にしている
+     (小画像の大きさや1列の個数を変えるときは、この比率も合わせて調整する) */
+  grid-template-columns: 2.55fr 1fr;
+  gap: 40px;
+  padding: 40px 60px 40px 40px;
+  border-radius: 15px;
+  overflow: hidden;
+  animation: modalPopIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; /* 下から少し浮かび上がる */
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalPopIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 閉じるとき(isClosingのあいだだけ付くクラス)。
+   開くアニメーションより後に書いて、上書きしている。
+   時間はLogoWorksDetail.tsxの MODAL_CLOSE_MS(350ms)と合わせる */
+.modalOverlayClosing {
+  animation: modalFadeOut 0.35s ease both;
+  pointer-events: none; /* 閉じている最中は、もう一度クリックされないようにする */
+}
+
+.modalInnerClosing {
+  animation: modalPopOut 0.35s ease both;
+}
+
+@keyframes modalFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes modalPopOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+}
+
+/* OSで「視差効果を減らす」設定の人には、アニメーションなしで表示する */
+@media (prefers-reduced-motion: reduce) {
+  .modalOverlay,
+  .modalInner,
+  .modalOverlayClosing,
+  .modalInnerClosing {
+    animation: none;
+  }
+}
+
+.modalMain {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+/* 大きい画像の左上のバッジ(「採用案」など)。見た目はスライダーのバッジ(LogoSlider.module.css の .badge)と同じ */
+.modalBadge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 1;
+  padding: 6px 16px;
+  background-color: #fff;
+  border: 1px solid #343434;
+  border-radius: 4px;
+  color: #343434;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1.4;
+  letter-spacing: 0.1em;
+  max-width: calc(100% - 32px); /* 文字が長すぎても画像からはみ出さず、折り返す */
+  pointer-events: none;
+}
+
+.modalThumbGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 何列並べるか(ロゴは多くても10枚なので2列 = 5個 × 2列) */
+  grid-auto-columns: 1fr; /* 11枚以上になって3列目ができても、はみ出さず同じ幅に縮めて並べる */
+  grid-template-rows: repeat(5, 1fr); /* 1列あたり何個並べるか */
+  grid-auto-flow: column; /* ここがポイント:列方向に埋めていく */
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  align-content: start;
+}
+
+.modalThumbBtn {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 2px solid transparent;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+  background-color: #ddd;
+}
+
+.modalThumbActive {
+  border-color: #343434;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: none;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  color: #343434;
+}
+
+@media (max-width: 1024px) {
+  .relatedList {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .contentWrap {
+    grid-template-columns: 1fr;
+  }
+  .modalInner {
+    grid-template-columns: 1fr;
+  }
+  /* 画面がせまいときは、小画像の並べ方は今までどおり(3列 × 7個) */
+  .modalThumbGrid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .detailRow {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .divider {
+    margin: 40px 0;
+  }
+  .section {
+    margin-bottom: 50px;
+  }
+  .relatedList {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+}

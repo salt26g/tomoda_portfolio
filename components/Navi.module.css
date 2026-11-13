@@ -1,0 +1,173 @@
+.wrap {
+  --side-w: 23.4vw; /* サイドバーの幅 */
+  --logo-w: calc(var(--side-w) * 0.76); /* 移動後のロゴの幅 */
+  --logo-top: 3.75vw; /* 移動後のロゴの上位置 */
+  --logo-bottom: calc(var(--logo-top) + var(--logo-w) * 0.388); /* ロゴの下端（高さ＝幅×0.388） */
+}
+
+.loader {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-color: #343434;
+  z-index: 555;
+  top: 0;
+  left: 0;
+  transition: width 1s ease;
+}
+.loader.docked {
+  width: var(--side-w);
+}
+.svg {
+  position: fixed;
+  z-index: 556; /* .loader(555) より手前 */
+  top: calc(60vh - 7.5vw - 40px);
+  left: 50%;
+  width: 40vw;
+  height: auto;
+  transform: translate(-50%, -50%);
+  transition: top 1s ease, left 1s ease, width 1s ease, transform 1s ease;
+}
+.svg.docked {
+  top: var(--logo-top);
+  left: calc(var(--side-w) / 2);
+  width: var(--logo-w);
+  transform: translate(-50%, 0);
+}
+.svg .st0 {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 10px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  animation: draw 7s 0.5s linear forwards;
+}
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.loader .loader_txt {
+  position: fixed;
+  top: calc(60vh + 5.26vw);
+  left: 50%;
+  width: max-content;
+  transform: translate(-50%, -50%) scale(1);
+  transform-origin: top center;
+  transition: top 1s ease, left 1s ease, transform 1s ease;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.loader.docked .loader_txt {
+  top: calc(var(--logo-bottom) + 38px);
+  left: calc(var(--side-w) / 2);
+  transform: translate(-50%, 0) scale(0.87);
+}
+.loader .loader_txt p {
+  display: block;
+  color: #fff;
+  text-align: center;
+  letter-spacing: 0.5rem;
+  font-size: 20px;
+  font-weight: lighter;
+  line-height: 40px;
+}
+.loader .loader_txt p span {
+  display: block;
+  clip-path: inset(0 100% 0 0);
+  animation: scanReveal 1.5s ease forwards;
+  animation-delay: 2s;
+}
+.loader .loader_txt p span+span {
+  display: block;
+  clip-path: inset(0 100% 0 0);
+  animation: scanReveal 1.5s ease forwards;
+  animation-delay: 3s;
+}
+@keyframes scanReveal {
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+.loader .loader_txt.other p span {
+  animation: none;
+  clip-path: inset(0 0 0 0);
+}
+.nav {
+  position: fixed;
+  z-index: 556;
+  top: calc(var(--logo-bottom) + 181px);
+  left: 0;
+  width: var(--side-w);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.8s ease 1s, visibility 0s linear 1s;
+}
+.nav.docked {
+  opacity: 1;
+  visibility: visible;
+}
+.nav_list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav_list > li {
+  width: 172px;
+  margin: 0 auto;
+  padding: 45px 0 41px;
+  border-top: 2px dotted #ccc;
+  text-align: center;
+}
+.nav a {
+  position: relative;
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
+  color: #fff;
+  font-weight: lighter;
+  text-decoration: none;
+  letter-spacing: 0.4em;
+  padding-left: 0.4em;
+}
+
+.nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: var(--underline-bottom, 4px);
+  width: 100%;
+  height: 0.5px;
+  background-color: #fff;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.4s ease;
+}
+.nav a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+@media (hover: hover) {
+  .nav a:hover::after {
+    transform: scaleX(1);
+  }
+}
+.nav_main {
+  --underline-bottom: -1px;
+  font-size: 22px;
+  line-height: 36px;
+}
+.nav_sub {
+  list-style: none;
+  margin: 26px 0 0;
+  padding: 0;
+}
+.nav_sub a {
+  --underline-bottom: 4px;
+  font-size: 15px;
+  line-height: 40px;
+}

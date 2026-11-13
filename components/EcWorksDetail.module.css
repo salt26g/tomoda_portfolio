@@ -1,0 +1,334 @@
+.contentWrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  margin-top: 30px;
+  align-items: start;
+}
+
+/* 左カラム:ギャラリー */
+.gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mainImageWrap {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+  background-color: #eee;
+}
+
+.thumbList {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.thumbBtn {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 2px solid transparent;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+  background-color: #ddd;
+}
+
+.thumbActive {
+  border-color: #343434;
+}
+
+.secondaryImageWrap {
+  position: relative;
+  width: 100%;
+  margin-top: 40px;
+  background-color: #eee;
+}
+
+.textBlock {
+  margin-top: 40px;
+}
+
+.textBlockTitle {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.textBlockImage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background-color: #eee;
+}
+
+/* 右カラム:詳細情報 */
+.infoCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.infoHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap; /* せまい画面で入りきらないときは、日付を下に折り返す */
+  gap: 8px 16px;
+  margin-bottom: 20px;
+}
+
+.date {
+  font-size: 14px;
+  color: #666;
+}
+
+.title {
+  font-size: 27px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.detailList {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin: 0 0 30px;
+}
+
+.detailRow {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 10px;
+  padding-bottom: 10px;
+}
+
+.dt {
+  font-weight: bold;
+  color: #343434;
+  font-size: 17px;
+}
+
+.dd {
+  margin: 0;
+  color: #555;
+  word-break: break-all;
+  white-space: pre-line;
+  font-size: 16px;
+  line-height: 30px;
+}
+
+.dd a {
+  color: #555;
+  text-decoration: underline;
+  transition: opacity 0.3s;
+}
+
+/* パンくずと同じ:マウスを乗せると少し薄くなり、アンダーラインが消える */
+.dd a:hover {
+  text-decoration: none;
+  opacity: 0.7;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 20px 0 30px;
+}
+
+.relatedTitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.relatedList {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.relatedImageWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background-color: #eee;
+}
+
+/* 画像いっぱいに広がるリンク。マウスを乗せると少し薄くなる(WORKS一覧と同じ動き)。
+   [href] をつけて、リンク先(url)がある関連デザインだけに効かせる */
+.relatedLink {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transition: opacity 0.3s ease;
+}
+
+.relatedLink[href]:hover,
+.relatedLink[href]:focus-visible {
+  opacity: 0.8;
+}
+
+/* モーダル */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 40px;
+  animation: modalFadeIn 0.4s ease both; /* 背景がふわっと暗くなる */
+}
+
+.modalInner {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  max-height: 90vh;
+  background-color: #fff;
+  display: grid;
+  grid-template-columns: 2.4fr 1fr;
+  gap: 40px;
+  padding: 40px 60px 40px 40px;
+  border-radius: 15px;
+  overflow: hidden;
+  animation: modalPopIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; /* 下から少し浮かび上がる */
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalPopIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 閉じるとき(isClosingのあいだだけ付くクラス)。
+   開くアニメーションより後に書いて、上書きしている。
+   時間はEcWorksDetail.tsxの MODAL_CLOSE_MS(350ms)と合わせる */
+.modalOverlayClosing {
+  animation: modalFadeOut 0.35s ease both;
+  pointer-events: none; /* 閉じている最中は、もう一度クリックされないようにする */
+}
+
+.modalInnerClosing {
+  animation: modalPopOut 0.35s ease both;
+}
+
+@keyframes modalFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes modalPopOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+}
+
+/* OSで「視差効果を減らす」設定の人には、アニメーションなしで表示する */
+@media (prefers-reduced-motion: reduce) {
+  .modalOverlay,
+  .modalInner,
+  .modalOverlayClosing,
+  .modalInnerClosing {
+    animation: none;
+  }
+}
+
+.modalMain {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+.modalThumbGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(7, 1fr); /* 1列あたり何個並べるか(例:2個) */
+  grid-auto-flow: column; /* ここがポイント:列方向に埋めていく */
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  align-content: start;
+}
+
+.modalThumbBtn {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 2px solid transparent;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+  background-color: #ddd;
+}
+
+.modalThumbActive {
+  border-color: #343434;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: none;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  color: #343434;
+}
+
+@media (max-width: 1024px) {
+  .contentWrap {
+    grid-template-columns: 1fr;
+  }
+  .modalInner {
+    grid-template-columns: 1fr;
+  }
+}
