@@ -62,9 +62,6 @@
   justify-content: space-between;
   align-items: flex-start;
 }
-.loader .loader_txt .tagSp {
-  display: none;
-}
 .loader.docked .loader_txt {
   top: calc(var(--logo-bottom) + 38px);
   left: calc(var(--side-w) / 2);
@@ -455,11 +452,7 @@
     margin-top: var(--sp-tag-gap);
   }
 
-  .responsive.intro .panel .loader .loader_txt .tagPc {
-    display: none;
-  }
-  .responsive.intro .panel .loader .loader_txt .tagSp {
-    display: block;
+  .responsive.intro .panel .loader .loader_txt .tagline {
     margin-left: var(--sp-tag-shift);
   }
   .responsive.intro .panel .loader .loader_txt p {

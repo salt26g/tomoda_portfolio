@@ -121,8 +121,8 @@ export default async function TOP() {
             <image href="/img/basic/loading_wh.svg" width="100%" height="100%" />
           </svg>
           <p className={styles.spTag}>
-            <span>デザインで、</span>
-            <span>人の想いと価値を繋ぐ。</span>
+            <span>想いに寄り添い、</span>
+            <span>伝わるデザインに。</span>
           </p>
         </div>
 

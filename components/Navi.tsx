@@ -103,8 +103,7 @@ export default function Navi({
     <>
       <div className={`${styles.loader} ${docked}`}>
         <div className={intro ? styles.loader_txt : `${styles.loader_txt} ${styles.other}`}>
-          <p className={styles.tagPc}><span>想いに寄り添い、</span><span>伝わるデザインに。</span></p>
-          {intro && <p className={styles.tagSp}><span>デザインで、</span><span>人の想いと価値を繋ぐ。</span></p>}
+          <p className={styles.tagline}><span>想いに寄り添い、</span><span>伝わるデザインに。</span></p>
         </div>
       </div>
       <Logo className={styles.logo} aria-label="TOMODA'S DESIGN"><svg className={`${styles.svg} ${docked}`} viewBox="0 0 1062.32 412.05" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
