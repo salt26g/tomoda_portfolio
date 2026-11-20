@@ -13,7 +13,7 @@ export const EcworksData: Record<string, Record<string, EcWorksData>> = {
       duration: "約16時間（1枚あたり約1時間）",
       request: "・シンプル\n・わかりやすく\n・女性向け\n・中価格帯商品なので上品めなデザイン",
       url: "https://item.rakuten.co.jp/ustyle01/986518/",
-      remarks: "2026/9/11(金)　楽天市場にて販売開始\n2026/10/5(月)　楽天こたつ用布団・カバー\n　デイリーランキング3位受賞",
+      remarks: "2026/9/11(金)　楽天市場にて販売開始\n2026/10/13(火)　楽天こたつ用布団・カバー\n　デイリーカテゴリランキング1位受賞\n2026/10/26(月)　楽天こたつ用布団・カバー\n　週間カテゴリランキング1位受賞",
       thumbnails: Array.from(
         { length: 16 },
         (_, i) => `/img/ec/1-986518-${String(i + 1).padStart(2, "0")}.webp`
@@ -74,7 +74,7 @@ export const EcworksData: Record<string, Record<string, EcWorksData>> = {
       ),
       secondaryImage: "/img/ec/4-101-set-long.jpg",
       relatedDesigns: [
-        { image: "/img/tmb/print_101-set_02.webp", title: "fuwawa ストレートネック対策枕 取扱説明書", url:"/works/print/" },
+        { image: "/img/tmb/print_101-set_02.webp", title: "fuwawa ストレートネック対策枕 取扱説明書", url:"/works/print/101-set" },
       ],
     },
     "5-986119": {
@@ -113,7 +113,7 @@ export const webWorksData: Record<string, WebWorksData> = {
     duration: "全7ページで約156時間　(1日8時間作業の場合…約20日間)\n・サイト構成設計…約12時間\n・デザイン・ライティング…約80時間\n・コーディング…約64時間",
     request: "・シンプルでわかりやすく。\n・緑と白をメインに使用。",
     url: "https://tenmew.jp",
-    defaultTab: 1,
+    defaultTab: 0,
     tabs: [
       { label: "他提案デザイン", images: [
         { src: "/img/web/1-tenmew-12.webp", caption: "TOPページA：　イラスト中心に親しみやすさを重視（イラストは自作）" },
@@ -130,7 +130,7 @@ export const webWorksData: Record<string, WebWorksData> = {
     ],
     relatedDesigns: [
       { image: "/img/tmb/logo_tenmew.webp", title: "株式会社テンミュー ロゴ", url: "/works/logo/3-tenmew" },
-      { image: "/img/tmb/print_tenmew_02.webp", title: "株式会社テンミュー 名刺", url: "/works/print/3-tenmew" },
+      { image: "/img/tmb/print_tenmew_02.webp", title: "株式会社テンミュー 名刺", url: "/works/print/tenmew" },
     ],
   },
   "2-atmsale": {
@@ -169,7 +169,7 @@ export const webWorksData: Record<string, WebWorksData> = {
     ],
     duration: "全5ページで約1～2ヵ月間　(申し訳ございません、当時の記録がないため、詳細な作業時間は把握できておりません。)",
     request: "・イメージカラーであるミントグリーンで自然を表現し、差し色のパッションピンクで明るい強さを表現してほしい。\n・シンプルでわかりやすく、かつ大胆で印象に残るように。\n・動画やSNSのリンクは全ページに入れてほしい。",
-    defaultTab: 1,
+    defaultTab: 0,
     tabs: [
       { label: "他提案デザイン", images: [
         { src: "/img/web/3-fukano-12.webp", caption: "TOPページA：　女性らしさと透明感、柔らかい自然をイメージ" },
@@ -238,7 +238,7 @@ export const webWorksData: Record<string, WebWorksData> = {
     ],
     duration: "全1ページで約32時間　(1日8時間作業の場合…約4日間)\n・サイト構成設計…約1時間\n・デザイン…約15時間\n・コーディング…約16時間",
     request: "・誰でも参加できる親しみ感のある雰囲気。\n・参加までの導線はわかりやすく。",
-    defaultTab: 1,
+    defaultTab: 0,
     tabs: [
       { label: "他提案デザイン", images: [
         { src: "/img/web/6-oshobad-04.webp", caption: "TOPページA：　「おしょ」バドらしく和風っぽく" },
@@ -310,8 +310,8 @@ export const logoWorksData: Record<string, LogoWorksData> = {
     thumbnails: ["/img/logo/2-yorozu-01.webp", "/img/logo/2-yorozu-02.webp", "/img/logo/2-yorozu-03.webp", "/img/logo/2-yorozu-04.webp", "/img/logo/2-yorozu-05.webp", "/img/logo/2-yorozu-06.webp", "/img/logo/2-yorozu-07.webp", "/img/logo/2-yorozu-08.webp"],
     sections: [
       { label: "第一案",
-        description: "以下のご指示の通り、5パターンのラフを作成。",
-        notes: ["和食の居酒屋に似合う和風のロゴ", "亀甲紋に漢字一文字で「萬」を配置", "カラーは黒・赤・金色等を希望", "下にYOROZUを配置", "上記指示以外のロゴ案もあれば見たい"],
+        description: "以下のご要望の通り、5パターンのラフを作成。",
+        notes: ["和食の居酒屋に似合う和風のロゴ", "亀甲紋に漢字一文字で「萬」を配置", "カラーは黒・赤・金色等を希望", "下にYOROZUを配置", "上記要望以外のロゴ案もあれば見たい"],
         images: ["/img/logo/2-yorozu-09.webp", "/img/logo/2-yorozu-10.webp","/img/logo/2-yorozu-11.webp","/img/logo/2-yorozu-12.webp","/img/logo/2-yorozu-13.webp"]
       },
       { label: "第二案",
@@ -361,7 +361,7 @@ export const logoWorksData: Record<string, LogoWorksData> = {
     ],
     relatedDesigns: [
       { image: "/img/tmb/web_tenmew.webp", title: "株式会社テンミュー コーポレートサイト", url: "/works/web/1-tenmew" },
-      { image: "/img/tmb/print_tenmew_02.webp", title: "株式会社テンミュー 名刺", url: "/works/print/3-tenmew" },
+      { image: "/img/tmb/print_tenmew_02.webp", title: "株式会社テンミュー 名刺", url: "/works/print/tenmew" },
     ],
   },
   "4-easy": {
@@ -389,11 +389,8 @@ export const logoWorksData: Record<string, LogoWorksData> = {
   },
 };
 
-// 印刷物・グッズの詳細ページ(/works/print/○○)。構成はロゴの詳細ページと同じ(LogoWorksDetail を使う)。
-// ※ 説明文と画像は、参考画像(10Mew のロゴ)のままの「仮」です。
-//    YOGI 用の文章と画像ができたら差し替えてください(画像は public/img/print に入れる想定)
 export const printWorksData: Record<string, LogoWorksData> = {
-  "1-yogi": {
+  "yogi": {
     title: "YOGIカフェ オリジナルグッズ",
     tag: "フリーランス制作",
     date: "2025.12.15作成",
@@ -416,41 +413,61 @@ export const printWorksData: Record<string, LogoWorksData> = {
         images: [{ src: "/img/fabric/1-yogi-01.webp", badge: "採用案" }, "/img/fabric/1-yogi-21.webp", "/img/fabric/1-yogi-22.webp", "/img/fabric/1-yogi-23.webp", "/img/fabric/1-yogi-24.webp", "/img/fabric/1-yogi-25.webp", "/img/fabric/1-yogi-26.webp", "/img/fabric/1-yogi-27.webp", "/img/fabric/1-yogi-28.webp"],
       },
       { label: "表面",
-        description: "第二案の中から選んだロゴを型に、カラーリングを緑色を強めに変更。",
+        description: "以下ご要望の通り、胸元のワンポイントデザインを作成。テキストとの組み合わせ案で採用。",
+        notes: ["背面のデザインと調和性のある花モチーフのワンポイントデザイン。", "デイジーで作成希望。他の花の提案も見たい。"],
         images: [{ src: "/img/fabric/1-yogi-29.webp", badge: "採用案" }, { src: "/img/fabric/1-yogi-30.webp", badge: "組み合わせ案1" }, { src: "/img/fabric/1-yogi-31.webp", badge: "組み合わせ案2" }, "/img/fabric/1-yogi-32.webp", "/img/fabric/1-yogi-33.webp", "/img/fabric/1-yogi-34.webp", "/img/fabric/1-yogi-35.webp", "/img/fabric/1-yogi-36.webp", "/img/fabric/1-yogi-37.webp"],
       },
     ],
   },
-  // ※ 説明文と画像は、参考画像(10Mew のロゴ)のままの「仮」です。名刺用の文章と画像ができたら差し替えてください
-  "3-tenmew": {
+  "101-set": {
+    title: "fuwawa ストレートネック対策枕 取扱説明書",
+    tag: "実務制作",
+    date: "2023.08.15作成",
+    clientLabel: "自社案件",
+    client: "ULIFE株式会社",
+    role: "デザイン / 構成",
+    tools: "illustrator",
+    duration: "約30時間（1面あたり約4時間）",
+    request: "・シンプル\n・わかりやすく",
+    url: "https://item.rakuten.co.jp/fuwawa01/101-set/",
+    thumbnails: ["/img/print/1-101-set-01.webp", "/img/print/1-101-set-02.webp", "/img/print/1-101-set-07.webp", "/img/print/1-101-set-08.webp", "/img/print/1-101-set-09.webp", "/img/print/1-101-set-10.webp"],
+    sections: [
+      { label: "プレミアム版",
+        description: "ネイビーを基調に、高級感とわかりやすさを両立したデザインで作成。",
+        images: [{ src: "/img/print/1-101-set-07.webp", badge: "外面" }, { src: "/img/print/1-101-set-08.webp", badge: "中面" }],
+      },
+      { label: "通常版",
+        description: "プレミアム版と同じ構成で、当時のブランドカラーである薄茶色を基調にデザイン。",
+        images: [{ src: "/img/print/1-101-set-09.webp", badge: "外面" }, { src: "/img/print/1-101-set-10.webp", badge: "中面" }],
+      },
+    ],
+    relatedDesigns: [
+      { image: "/img/tmb/ec_101-set.webp", title: "fuwawa ストレートネック対策枕", url: "/works/ec/4-101-set" },
+    ],
+  },
+  "tenmew": {
     title: "株式会社テンミュー 名刺",
     tag: "フリーランス制作",
     date: "2026.07.29作成",
     client: "株式会社テンミュー様（人材育成・転職支援会社）",
-    role: "デザイン・印刷手配",
+    role: "デザイン / 印刷手配",
     tools: "illustrator",
     duration: "約8時間",
     request: "・緑をメインカラーに使用\n・シンプル\n・わかりやすく",
-    thumbnails: ["/img/logo/3-tenmew-01.webp", "/img/logo/3-tenmew-02.webp", "/img/logo/3-tenmew-03.webp"],
+    thumbnails: ["/img/print/2-tenmew-18.webp", "/img/print/2-tenmew-02.webp", "/img/print/2-tenmew-03.webp"],
     sections: [
-      { label: "第一案",
-        description: "会社名の由来を元にデザイン。",
-        images: ["/img/logo/3-tenmew-09.webp", "/img/logo/3-tenmew-10.webp", "/img/logo/3-tenmew-11.webp", "/img/logo/3-tenmew-12.webp", "/img/logo/3-tenmew-13.webp", "/img/logo/3-tenmew-14.webp", "/img/logo/3-tenmew-15.webp", "/img/logo/3-tenmew-16.webp", "/img/logo/3-tenmew-17.webp", "/img/logo/3-tenmew-18.webp"]
+      { label: "表面",
+        description: "企業ロゴのデザインと調和性があり、人材会社らしく信頼感がありわかりやすいイメージでラフデザイン作成。\n背景とテキスト配置を2パターンの組み合わせた案で採用。",
+        images: [{ src: "/img/print/2-tenmew-02.webp", badge: "採用案" }, { src: "/img/print/2-tenmew-19.webp", badge: "組み合わせ案1" }, { src: "/img/print/2-tenmew-25.webp", badge: "組み合わせ案2" }, "/img/print/2-tenmew-20.webp", "/img/print/2-tenmew-21.webp", "/img/print/2-tenmew-22.webp", "/img/print/2-tenmew-23.webp", "/img/print/2-tenmew-24.webp", "/img/print/2-tenmew-26.webp"]
       },
-      { label: "第二案",
-        description: "第一案の中から選んだロゴをもとに、ブラッシュアップ。",
-        notes: ["「ten」を数字の「10」に変更。", "フォントをゴシック体に変更。", "読みを追加したパターンも追加作成。"],
-        images: ["/img/logo/3-tenmew-19.webp", "/img/logo/3-tenmew-20.webp", "/img/logo/3-tenmew-21.webp", "/img/logo/3-tenmew-22.webp", "/img/logo/3-tenmew-23.webp", "/img/logo/3-tenmew-24.webp", "/img/logo/3-tenmew-25.webp", "/img/logo/3-tenmew-26.webp"],
+      { label: "裏面",
+        description: "表面に合ったデザイン案を作成。背景と配置の2パターンを組み合わせた案で採用。",
+        images: [{ src: "/img/print/2-tenmew-03.webp", badge: "採用案" }, { src: "/img/print/2-tenmew-28.webp", badge: "組み合わせ案1" }, { src: "/img/print/2-tenmew-27.webp", badge: "組み合わせ案2" }, "/img/print/2-tenmew-31.webp", "/img/print/2-tenmew-29.webp"],
       },
-      { label: "第三案",
-        description: "第二案の中から選んだロゴを型に、カラーリングを緑色を強めに変更。",
-        images: ["/img/logo/3-tenmew-27.webp", "/img/logo/3-tenmew-28.webp", "/img/logo/3-tenmew-29.webp"]
-      },
-      { label: "最終案",
-        description: "第三案の中から選んだシンボルロゴをもとに、ロゴタイプ作成。",
-        notes: ["「ten」を数字の「10」に変更。", "フォントをゴシック体に変更。", "読みを追加したパターンも追加作成。"],
-        images: ["/img/logo/3-tenmew-30.webp", "/img/logo/3-tenmew-31.webp", "/img/logo/3-tenmew-32.webp", "/img/logo/3-tenmew-33.webp"]
-      },
+    ],
+    relatedDesigns: [
+      { image: "/img/tmb/web_tenmew.webp", title: "株式会社テンミュー コーポレートサイト", url: "/works/web/1-tenmew" },
+      { image: "/img/tmb/logo_tenmew.webp", title: "株式会社テンミュー ロゴ", url: "/works/logo/3-tenmew" },
     ],
   },
 };

@@ -1,13 +1,12 @@
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
+import Image from "@/components/SkeletonImage";
+import SwipeSlider from "@/components/SwipeSlider";
 import Breadcrumb from "@/components/Breadcrumb";
 import WorkBadge from "@/components/WorkBadge";
 import styles from "./EcWorksDetail.module.css";
 import { useState, useEffect, useRef } from "react";
 
-// 閉じるアニメーションの長さ(ミリ秒)。CSSの .modalOverlayClosing の時間と合わせる
 const MODAL_CLOSE_MS = 350;
 import { useLenis } from "lenis/react";
 import { lockScroll, unlockScroll } from "@/lib/scrollLock";
@@ -22,9 +21,8 @@ export type EcWorksData = {
   request: string;
   url?: string;
   remarks: string;
-  thumbnails: string[]; // サムネイル一覧(クリックでメイン画像が切り替わる)
-  secondaryImage?: string; // サムネイル一覧の下に続く2枚目の大画像
-  textBlockImage?: string;
+  thumbnails: string[];
+  secondaryImage?: string;
   relatedDesigns?: {
     image: string;
     title: string;
@@ -34,21 +32,19 @@ export type EcWorksData = {
 
 type WorksDetailProps = {
   data: EcWorksData;
-  genre?: string; // 「EC商品コンテンツ」など。WORKS一覧のカードと同じ表記(works_data.ts から取得)
+  genre?: string;
 };
 
 export default function WorksDetail({ data, genre }: WorksDetailProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isClosing, setIsClosing] = useState(false); // 閉じるアニメーション中
+  const [isClosing, setIsClosing] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lenis = useLenis();
 
-  // アニメーションを見せてから、モーダルを本当に閉じる
   const closeModal = () => {
-    if (isClosing) return; // 連打しても二重に動かさない
+    if (isClosing) return;
 
-    // OSで「視差効果を減らす」設定の人は、アニメーションなしで即閉じる
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
@@ -64,7 +60,6 @@ export default function WorksDetail({ data, genre }: WorksDetailProps) {
     }, MODAL_CLOSE_MS);
   };
 
-  // ページ移動などで消えるとき、残っているタイマーを止める
   useEffect(() => {
     return () => {
       if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -87,7 +82,7 @@ export default function WorksDetail({ data, genre }: WorksDetailProps) {
   }, [isModalOpen, lenis]);
 
   return (
-    <div className={styles.page}>
+    <div>
       <Breadcrumb
         items={[
           { label: "WORKS", href: "/works" },
@@ -96,7 +91,6 @@ export default function WorksDetail({ data, genre }: WorksDetailProps) {
       />
 
       <div className={styles.contentWrap}>
-        {/* 左カラム:ギャラリー */}
         <div className={styles.gallery}>
           <button
             type="button"
@@ -110,6 +104,13 @@ export default function WorksDetail({ data, genre }: WorksDetailProps) {
               style={{ objectFit: "cover" }}
             />
           </button>
+
+          <SwipeSlider
+            images={data.thumbnails}
+            alt={data.title}
+            activeIndex={activeIndex}
+            onChange={setActiveIndex}
+          />
 
           <ul className={styles.thumbList}>
             {data.thumbnails.map((src, index) => (
@@ -145,7 +146,6 @@ export default function WorksDetail({ data, genre }: WorksDetailProps) {
           )}
         </div>
 
-        {/* 右カラム:詳細情報 */}
         <div className={styles.infoCol}>
           <div className={styles.infoHead}>
             <WorkBadge production={data.tag} genre={genre} />
@@ -220,7 +220,6 @@ export default function WorksDetail({ data, genre }: WorksDetailProps) {
         </div>
       </div>
 
-      {/* 拡大モーダル */}
       {isModalOpen && (
         <div
           className={`${styles.modalOverlay} ${
@@ -234,35 +233,37 @@ export default function WorksDetail({ data, genre }: WorksDetailProps) {
             }`}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className={styles.modalMain}>
-              <Image
-                src={data.thumbnails[activeIndex]}
-                alt="拡大画像"
-                fill
-                style={{ objectFit: "contain" }}
-              />
-            </div>
+            <div className={styles.modalScroll} data-lenis-prevent>
+              <div className={styles.modalMain}>
+                <Image
+                  src={data.thumbnails[activeIndex]}
+                  alt="拡大画像"
+                  fill
+                  style={{ objectFit: "contain" }}
+                />
+              </div>
 
-            <ul className={styles.modalThumbGrid}>
-              {data.thumbnails.map((src, index) => (
-                <li key={index}>
-                  <button
-                    type="button"
-                    className={`${styles.modalThumbBtn} ${
-                      index === activeIndex ? styles.modalThumbActive : ""
-                    }`}
-                    onClick={() => setActiveIndex(index)}
-                  >
-                    <Image
-                      src={src}
-                      alt={`サムネイル${index + 1}`}
-                      fill
-                      style={{ objectFit: "cover" }}
-                    />
-                  </button>
-                </li>
-              ))}
-            </ul>
+              <ul className={styles.modalThumbGrid}>
+                {data.thumbnails.map((src, index) => (
+                  <li key={index}>
+                    <button
+                      type="button"
+                      className={`${styles.modalThumbBtn} ${
+                        index === activeIndex ? styles.modalThumbActive : ""
+                      }`}
+                      onClick={() => setActiveIndex(index)}
+                    >
+                      <Image
+                        src={src}
+                        alt={`サムネイル${index + 1}`}
+                        fill
+                        style={{ objectFit: "cover" }}
+                      />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
             <button
               type="button"

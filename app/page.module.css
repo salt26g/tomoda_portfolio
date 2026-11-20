@@ -1,166 +1,182 @@
-.main{
-  width: 76vw;
+.main {
   display: block;
-  margin: 0 0 0 auto;
-  padding: 50px;
 }
-.top ul.creative {
-  column-count: 3;
-  column-gap: 20px;
-  width: 100%;
+
+.content {
+  --hero-gap: 44px;
+  margin-left: 23.4vw;
+  padding-top: var(--hero-gap);
 }
-.top ul.creative li {
-  break-inside: avoid;
+
+.spHead {
+  display: none;
+}
+
+.hero {
+  height: calc(100vh - var(--hero-gap) * 2);
+  min-height: 480px;
+  overflow: hidden;
+}
+
+.columns {
+  height: 100%;
+  display: flex;
+  gap: 20px;
+  padding: 0 50px;
+}
+.column {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.track {
+  animation-duration: var(--duration, 100s);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+.up .track {
+  animation-name: scrollUp;
+}
+.down .track {
+  animation-name: scrollDown;
+}
+@keyframes scrollUp {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, -50%, 0);
+  }
+}
+@keyframes scrollDown {
+  from {
+    transform: translate3d(0, -50%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.group {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flow-root;
+}
+.item {
   margin-bottom: 16px;
-  position: relative;
 }
-.top ul.creative li img {
+.item img {
   width: 100%;
   height: auto;
   display: block;
   border-radius: 8px;
 }
-.top ul.creative li p {
-  position: absolute;
-  color: #fff;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  z-index: 100;
-  top: 0;
-  left: 0;
-  border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.7s cubic-bezier(0.35, 1, 0.7, 1), visibility 0.7s;
+
+.lower {
+  padding: 136px clamp(48px, 6.1vw, 104px) 0;
 }
-.top ul.creative li a:hover p {
-  opacity: 1;
-  visibility: visible;
-}
-.top ul.creative li a p .exp {
-  text-align: center;
-}
-.top ul.creative li a p .exp .client {
-  background: #fff;
-  border-radius: 5px;
-  color: #555;
-  padding: 2px 8px 3px;
-  margin-bottom: 5px;
-  display: inline-block;
-}
-.top ul.creative li a p .exp .genre {
-  margin-right: 1rem; /* 右に並ぶ「実務制作」などとの間隔 */
-}
-.top ul.creative li a p .exp .text {
-  border-top: dotted 1px #fff;
-  margin-top: 5px;
-  padding-top: 5px;
-  display: block;
-  font-size: 17px;
-}
-.top ul.creative li a p .exp .btn {
-  border-radius: 20px;
-  border: solid 1px #fff;
-  padding: 3px 35px 6px 17px;
-  margin-top: 15px;
-  font-size: 17px;
-  display: inline-block;
-  position: relative;
-  transition: background-color 0.5s ease, color 0.5s ease;
-}
-.top ul.creative li a p .exp .btn:after {
-  position: absolute;
-  content: "";
-  width: 15px;
-  height: 22px;
-  right: 8px;
-  top: 9px;
-  background-image: url(../public/img/basic/btn_icon_wh.webp);
-  background-position: 0 0;
-  background-repeat: no-repeat;
-  background-size: auto 1rem;
-}
-.top ul.creative li a p .exp .btn:before {
-  position: absolute;
-  content: "";
-  width: 15px;
-  height: 22px;
-  right: 8px;
-  top: 9px;
-  background-image: url(../public/img/basic/btn_icon_bk.webp);
-  background-position: 0 0;
-  background-repeat: no-repeat;
-  background-size: auto 1rem;
-  z-index: 1;
-  opacity: 0;  transition: opacity 0.5s ease;
-}
-.top ul.creative li a p .exp .btn:hover {
-  background-color: #fff;
-  color: #555;
-}
-.top ul.creative li a p .exp .btn:hover:before {
-  opacity: 1;
-}
-.top > .btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.top > .btn a {
-  background-color: #343434;
-  color: #fff;
-  font-size: 20px;
-  padding: 20px 50px 20px 40px; 
-  border-radius: 50px;
-  border: solid 1px #343434;
-  position: relative;
-  display: inline-block;
-  transition: background-color 0.5s ease, color 0.5s ease;
-}
-.top > .btn a:after {
-  position: absolute;
-  content: "";
-  width: 15px;
-  height: 22px;
-  right: 24px;
-  top: 50%;
-  transform: translateY(-50%);
-  background-image: url(../public/img/basic/btn_icon_wh.webp);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-}
-.top > .btn a:before {
-  position: absolute;
-  content: "";
-  width: 15px;
-  height: 22px;
-  right: 24px;
-  top: 50%;
-  transform: translateY(-50%);
-  background-image: url(../public/img/basic/btn_icon_bk.webp);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  z-index: 1;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-.top > .btn a:hover {
-  background-color: transparent;
-  color: #343434;
-}
-.top > .btn a:hover:before {
-  opacity: 1;
+.footerWrap {
+  padding: 30px 0 54px;
 }
 
+@media (max-width: 1100px) {
+  .content {
+    margin-left: 0;
+    padding-top: 0;
+  }
 
-@media (max-width: 768px) {
-  .top ul.creative {
-    column-count: 2;
+  .spHead {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    height: var(--sp-head-h);
+    padding-top: var(--sp-head-top);
+    background: #343434;
+  }
+  .spLogo {
+    display: block;
+    width: var(--sp-logo-w);
+    height: auto;
+  }
+  .spTag {
+    display: block;
+    margin: var(--sp-tag-gap) 0 0 var(--sp-tag-shift);
+    color: #fff;
+    text-align: center;
+    font-size: var(--sp-tag-fs);
+    font-weight: 300;
+    letter-spacing: var(--sp-tag-ls);
+    line-height: var(--sp-tag-lh);
+  }
+  .spTag span {
+    display: block;
+  }
+
+  .hero {
+    box-sizing: border-box;
+    height: calc(100vh - var(--sp-head-h));
+    height: calc(100svh - var(--sp-head-h));
+    min-height: 360px;
+    padding-top: calc(16 * var(--sp-u));
+  }
+  .columns {
+    gap: calc(15 * var(--sp-u));
+    padding: 0 calc(15 * var(--sp-u));
+  }
+  .item {
+    margin-bottom: calc(16 * var(--sp-u));
+  }
+  .item img {
+    border-radius: calc(4 * var(--sp-u));
+  }
+  .lower {
+    padding: 96px 28px 0;
+  }
+  .footerWrap {
+    padding: 24px 0 40px;
+  }
+}
+@media (max-width: 600px) {
+  .column:nth-child(3) {
+    display: none;
+  }
+  .lower {
+    padding: 72px 16px 0;
+  }
+  .footerWrap {
+    padding: 20px 0 32px;
+  }
+}
+@media (max-width: 380px) {
+  .lower {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+  .columns {
+    height: auto;
+  }
+  .column {
+    overflow: visible;
+  }
+  .up .track,
+  .down .track {
+    animation: none;
+    transform: none;
+    will-change: auto;
+  }
+  .group[aria-hidden="true"] {
+    display: none;
   }
 }

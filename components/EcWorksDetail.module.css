@@ -6,7 +6,6 @@
   align-items: start;
 }
 
-/* 左カラム:ギャラリー */
 .gallery {
   display: flex;
   flex-direction: column;
@@ -57,25 +56,6 @@
   background-color: #eee;
 }
 
-.textBlock {
-  margin-top: 40px;
-}
-
-.textBlockTitle {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-.textBlockImage {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-  background-color: #eee;
-}
-
-/* 右カラム:詳細情報 */
 .infoCol {
   display: flex;
   flex-direction: column;
@@ -85,7 +65,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap; /* せまい画面で入りきらないときは、日付を下に折り返す */
+  flex-wrap: wrap;
   gap: 8px 16px;
   margin-bottom: 20px;
 }
@@ -136,7 +116,6 @@
   transition: opacity 0.3s;
 }
 
-/* パンくずと同じ:マウスを乗せると少し薄くなり、アンダーラインが消える */
 .dd a:hover {
   text-decoration: none;
   opacity: 0.7;
@@ -171,8 +150,6 @@
   background-color: #eee;
 }
 
-/* 画像いっぱいに広がるリンク。マウスを乗せると少し薄くなる(WORKS一覧と同じ動き)。
-   [href] をつけて、リンク先(url)がある関連デザインだけに効かせる */
 .relatedLink {
   position: absolute;
   inset: 0;
@@ -185,7 +162,6 @@
   opacity: 0.8;
 }
 
-/* モーダル */
 .modalOverlay {
   position: fixed;
   inset: 0;
@@ -195,7 +171,7 @@
   justify-content: center;
   z-index: 1000;
   padding: 40px;
-  animation: modalFadeIn 0.4s ease both; /* 背景がふわっと暗くなる */
+  animation: modalFadeIn 0.4s ease both;
 }
 
 .modalInner {
@@ -210,7 +186,7 @@
   padding: 40px 60px 40px 40px;
   border-radius: 15px;
   overflow: hidden;
-  animation: modalPopIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; /* 下から少し浮かび上がる */
+  animation: modalPopIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes modalFadeIn {
@@ -233,12 +209,9 @@
   }
 }
 
-/* 閉じるとき(isClosingのあいだだけ付くクラス)。
-   開くアニメーションより後に書いて、上書きしている。
-   時間はEcWorksDetail.tsxの MODAL_CLOSE_MS(350ms)と合わせる */
 .modalOverlayClosing {
   animation: modalFadeOut 0.35s ease both;
-  pointer-events: none; /* 閉じている最中は、もう一度クリックされないようにする */
+  pointer-events: none;
 }
 
 .modalInnerClosing {
@@ -265,7 +238,6 @@
   }
 }
 
-/* OSで「視差効果を減らす」設定の人には、アニメーションなしで表示する */
 @media (prefers-reduced-motion: reduce) {
   .modalOverlay,
   .modalInner,
@@ -285,8 +257,8 @@
 .modalThumbGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(7, 1fr); /* 1列あたり何個並べるか(例:2個) */
-  grid-auto-flow: column; /* ここがポイント:列方向に埋めていく */
+  grid-template-rows: repeat(7, 1fr);
+  grid-auto-flow: column;
   gap: 10px;
   list-style: none;
   padding: 0;
@@ -324,11 +296,114 @@
   color: #343434;
 }
 
-@media (max-width: 1024px) {
+.modalScroll {
+  display: contents;
+}
+
+@media (max-width: 1100px) {
   .contentWrap {
     grid-template-columns: 1fr;
+    gap: 0;
+    margin-top: 0;
+  }
+  .gallery {
+    display: contents;
+  }
+  .infoCol {
+    display: contents;
+  }
+  .mainImageWrap {
+    display: none;
+  }
+  .infoHead {
+    order: -2;
+    margin-top: 0;
+    margin-bottom: 15px;
+  }
+  .title {
+    order: -1;
+  }
+  .thumbList {
+    margin-top: 20px;
+  }
+  .detailList,
+  .divider,
+  .relatedTitle,
+  .relatedList {
+    order: 1;
+  }
+  .detailList {
+    margin-top: 40px;
+    gap: 38px;
+  }
+  .detailRow {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding-bottom: 0;
+  }
+  .secondaryImageWrap {
+    order: 2;
+  }
+}
+
+@media (max-width: 600px) {
+  .infoHead {
+    margin-top: 2px;
+  }
+  .thumbList {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .relatedList {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 760px), (max-height: 560px) {
+  .modalOverlay {
+    padding: 20px;
   }
   .modalInner {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+    padding: 56px 24px 24px;
+    border-radius: 12px;
+  }
+  .modalScroll {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .modalMain {
+    flex: 0 0 auto;
+    width: min(100%, calc(100dvh - 160px));
+    margin: 0 auto;
+  }
+  .modalThumbGrid {
+    flex: 0 0 auto;
+    grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
+    grid-auto-columns: auto;
+    grid-template-rows: none;
+    grid-auto-flow: row;
+    gap: 6px;
+  }
+  .closeBtn {
+    top: 8px;
+    right: 8px;
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 600px) {
+  .modalOverlay {
+    padding: 12px;
+  }
+  .modalInner {
+    padding: 52px 14px 14px;
   }
 }

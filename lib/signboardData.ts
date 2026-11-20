@@ -1,12 +1,11 @@
 import type { SignboardItem, SignboardListData } from "@/components/SignboardWorksList";
 
 export const signboardListData: SignboardListData = {
-  tag: "フリーランス制作", // 実務制作 / フリーランス制作(WORKS一覧のカードと同じにする)
+  tag: "フリーランス制作",
   title: "吉祥寺 御菓子処 俵屋　手書き看板",
-  // clientLabel: "自社案件", // 実務制作のときだけ書く(省略すると「クライアント」と表示される)
   client: "吉祥寺 御菓子処 俵屋様（和菓子屋）",
   role: "デザイン",
-  tools: "Photoshop（カンプ作成時）/ ポスカ / 黒板",
+  tools: "ポスカ / 黒板 / Photoshop（カンプ作成時）",
   duration: "1枚あたり約15～24時間",
 };
 

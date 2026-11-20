@@ -1,28 +1,93 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useLenis } from "lenis/react";
 import { WORKS_NAV_LINKS } from "@/lib/worksNav";
+import { lockScroll, unlockScroll } from "@/lib/scrollLock";
 import styles from "./Navi.module.css";
 
-// 左のナビ(黒い背景 + ロゴ + キャッチコピー + メニュー)。全ページ共通で、このファイル1つで管理する。
-//   <Navi />        … ふつうのページ。最初から左に収まった状態で表示される
-//   <Navi intro />  … トップページ。最初は画面いっぱいの黒い背景でロゴが描かれ、
-//                     読み込みが終わって少しすると、左に縮んで収まる(オープニング)
-export default function Navi({ intro = false }: { intro?: boolean }) {
-  // 左に収まった状態かどうか。
-  // ふつうのページは最初から true。トップページ(intro)は、読み込み完了の4.5秒後に true になり、
-  // 背景が左に縮み、ロゴ・キャッチコピーが移動し、ナビが現れる
+const INTRO_SEEN_KEY = "tomoda-intro-seen";
+
+export default function Navi({
+  intro = false,
+  responsive = false,
+}: {
+  intro?: boolean;
+  responsive?: boolean;
+}) {
   const [isDocked, setIsDocked] = useState(!intro);
 
-  useEffect(() => {
+  const hasMenu = responsive;
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const burgerRef = useRef<HTMLButtonElement>(null);
+  const menuId = useId();
+  const lenis = useLenis();
+  const pathname = usePathname();
+
+  const handleAnchorClick = (e: ReactMouseEvent<HTMLElement>) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    const href = (e.target as Element).closest("a")?.getAttribute("href");
+    if (!href?.startsWith("/#") || pathname !== "/") return;
+    const target = document.getElementById(href.slice(2));
+    if (!target) return;
+    e.preventDefault();
+    lenis?.scrollTo(target, { offset: -40 });
+  };
+
+  const introMode = useRef<"play" | "skip" | null>(null);
+  useLayoutEffect(() => {
     if (!intro) return;
 
-    const startDock = () => {
-      setTimeout(() => setIsDocked(true), 4500);
+    if (introMode.current === null) {
+      let seen = false;
+      try {
+        seen = sessionStorage.getItem(INTRO_SEEN_KEY) === "1";
+        if (!seen) sessionStorage.setItem(INTRO_SEEN_KEY, "1");
+      } catch {
+      }
+      introMode.current = seen ? "skip" : "play";
+    }
+
+    if (introMode.current === "skip") {
+      document.documentElement.setAttribute("data-intro-seen", "");
+      setIsDocked(true);
+    }
+  }, [intro]);
+
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    lockScroll();
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsMenuOpen(false);
+        burgerRef.current?.focus();
+      }
+    };
+    const wide = window.matchMedia("(min-width: 1101px)");
+    const onWide = () => {
+      if (wide.matches) setIsMenuOpen(false);
     };
 
-    // ページの読み込みが既に完了していれば即実行、
-    // まだなら "load" イベントを待つ
+    window.addEventListener("keydown", onKeyDown);
+    wide.addEventListener("change", onWide);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      wide.removeEventListener("change", onWide);
+      unlockScroll();
+    };
+  }, [isMenuOpen]);
+
+  useEffect(() => {
+    if (!intro || introMode.current === "skip") return;
+
+    const startDock = () => {
+      const narrow = window.matchMedia("(max-width: 1100px)").matches;
+      setTimeout(() => setIsDocked(true), narrow ? 4800 : 4500);
+    };
+
     if (document.readyState === "complete") {
       startDock();
     } else {
@@ -32,18 +97,17 @@ export default function Navi({ intro = false }: { intro?: boolean }) {
   }, [intro]);
 
   const docked = isDocked ? styles.docked : "";
-  // トップページのロゴは見出し(h1)で、リンクではない。他のページのロゴは、押すとトップへ戻る
   const Logo = intro ? "h1" : "div";
 
-  return (
-    // wrap は CSS変数（サイドバーの幅など）をまとめて持たせるための入れ物
-    <div className={styles.wrap}>
+  const navi = (
+    <>
       <div className={`${styles.loader} ${docked}`}>
         <div className={intro ? styles.loader_txt : `${styles.loader_txt} ${styles.other}`}>
-          <p><span>想いに寄り添い、</span><span>伝わるデザインに。</span></p>
+          <p className={styles.tagPc}><span>想いに寄り添い、</span><span>伝わるデザインに。</span></p>
+          {intro && <p className={styles.tagSp}><span>デザインで、</span><span>人の想いと価値を繋ぐ。</span></p>}
         </div>
       </div>
-      <Logo aria-label="TOMODA'S DESIGN"><svg className={`${styles.svg} ${docked}`} viewBox="0 0 1062.32 412.05" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+      <Logo className={styles.logo} aria-label="TOMODA'S DESIGN"><svg className={`${styles.svg} ${docked}`} viewBox="0 0 1062.32 412.05" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
         {intro ? (
           <>
             <mask id="txt-mask">
@@ -74,26 +138,65 @@ export default function Navi({ intro = false }: { intro?: boolean }) {
         )}
       </svg></Logo>
 
-      <nav className={`${styles.nav} ${docked}`}>
+      <nav className={`${styles.nav} ${docked}`} onClickCapture={handleAnchorClick}>
         <ul className={styles.nav_list}>
           <li>
             <Link href="/works" className={styles.nav_main}>WORKS</Link>
             <ul className={styles.nav_sub}>
-              {/* 各リンクは、WORKSの絞り込みが選ばれた状態で開く(lib/worksNav.ts) */}
               {WORKS_NAV_LINKS.map((link) => (
                 <li key={link.label}><Link href={link.href}>{link.label}</Link></li>
               ))}
             </ul>
           </li>
           <li>
-            <Link href="/about" className={styles.nav_main}>ABOUT</Link>
+            <Link href="/#about" className={styles.nav_main}>ABOUT</Link>
             <ul className={styles.nav_sub}>
-              <li><Link href="#">PROFILE</Link></li>
-              <li><Link href="#">SKILL</Link></li>
+              <li><Link href="/#profile">PROFILE</Link></li>
+              <li><Link href="/#skill">SKILL</Link></li>
             </ul>
           </li>
         </ul>
       </nav>
+    </>
+  );
+
+  return (
+    <div
+      data-navi=""
+      className={`${styles.wrap} ${intro ? styles.intro : ""} ${intro && isDocked ? styles.introDone : ""} ${hasMenu ? styles.responsive : ""} ${isMenuOpen ? styles.open : ""}`}
+    >
+      {hasMenu ? (
+        <>
+          <button
+            ref={burgerRef}
+            type="button"
+            className={styles.burger}
+            aria-label={isMenuOpen ? "メニューを閉じる" : "メニューを開く"}
+            aria-expanded={isMenuOpen}
+            aria-controls={menuId}
+            onClick={() => setIsMenuOpen((open) => !open)}
+          >
+            <span className={styles.burgerLine} aria-hidden="true" />
+            <span className={styles.burgerLine} aria-hidden="true" />
+            <span className={styles.burgerLine} aria-hidden="true" />
+          </button>
+          <div
+            id={menuId}
+            className={styles.panel}
+            data-lenis-prevent
+            onClick={(e) => {
+              if ((e.target as Element).closest("a")) {
+                setIsMenuOpen(false);
+                if (!e.defaultPrevented) lenis?.scrollTo(0, { immediate: true });
+              }
+            }}
+          >
+            {navi}
+          </div>
+        </>
+      ) : (
+        navi
+      )}
     </div>
   );
 }

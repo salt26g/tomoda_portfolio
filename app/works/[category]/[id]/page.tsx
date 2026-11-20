@@ -16,11 +16,8 @@ type Props = {
 export default async function WorksDetailPage({ params }: Props) {
   const { category, id } = await params;
 
-  // 「[EC商品コンテンツ] 実務制作」の [ ] の部分。WORKS一覧のカードと同じジャンル名を、
-  // このページのURLをもとに works_data.ts から取ってくる
   const genre = findWorkGenre(`/works/${category}/${id}`);
 
-  // カテゴリごとに表示するコンポーネントを切り替える
   let content;
 
   if (category === "web") {
@@ -32,7 +29,6 @@ export default async function WorksDetailPage({ params }: Props) {
     if (!logoData) notFound();
     content = <LogoWorksDetail data={logoData} genre={genre} />;
   } else if (category === "print") {
-    // 印刷物・グッズ。構成はロゴの詳細ページと同じ
     const printData = printWorksData[id];
     if (!printData) notFound();
     content = <LogoWorksDetail data={printData} genre={genre} />;
@@ -43,9 +39,9 @@ export default async function WorksDetailPage({ params }: Props) {
   }
 
   return (
-    <main className={styles.main}>
-      <Navi />
-      <TitleH2 />
+    <main className={`${styles.main} ${styles.mainResponsive}`}>
+      <Navi responsive />
+      <TitleH2 responsive />
       <section>{content}</section>
       <Footer />
     </main>

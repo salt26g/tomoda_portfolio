@@ -1,0 +1,227 @@
+.works {
+  padding: 110px 50px 0;
+}
+
+.title {
+  font-family: var(--MA1), sans-serif;
+  font-size: 64px;
+  letter-spacing: 0.17em;
+  padding-left: 0.17em;
+  line-height: 1;
+  text-align: center;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 235px));
+  justify-content: center;
+  gap: 0 40px;
+  margin: 78px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.list li {
+  min-width: 0;
+  display: flex;
+}
+.list li > * {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+  text-align: center;
+}
+
+.circle {
+  display: block;
+  width: min(100%, 235px);
+  margin: 0 auto;
+  filter: drop-shadow(0 0 0 rgba(0, 0, 0, 0));
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+.circle img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+}
+.link:focus-visible .circle {
+  transform: translateY(-10px);
+  filter: drop-shadow(0 16px 14px rgba(0, 0, 0, 0.22));
+}
+@media (hover: hover) {
+  .link:hover .circle {
+    transform: translateY(-10px);
+    filter: drop-shadow(0 16px 14px rgba(0, 0, 0, 0.22));
+  }
+}
+
+.en {
+  display: block;
+  margin-top: 36px;
+  font-size: 16px;
+  font-weight: 300;
+  -webkit-text-stroke: 0.2px currentColor;
+  letter-spacing: 0.3em;
+  padding-left: 0.3em;
+  line-height: 1;
+  color: #666;
+}
+
+.ja {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1 1 auto;
+  margin-top: 20px;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  padding-left: 0.15em;
+  line-height: 1.6;
+  color: #343434;
+}
+.ja span {
+  display: block;
+}
+
+.more {
+  display: flex;
+  justify-content: center;
+  margin-top: 90px;
+}
+.moreLink {
+  position: relative;
+  display: inline-block;
+  padding: 20px 50px 20px 40px;
+  border: solid 1px #343434;
+  border-radius: 50px;
+  background-color: #343434;
+  color: #fff;
+  font-size: 20px;
+  text-decoration: none;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+.moreLink::after,
+.moreLink::before {
+  position: absolute;
+  content: "";
+  width: 15px;
+  height: 22px;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.moreLink::after {
+  background-image: url(../public/img/basic/btn_icon_wh.webp);
+}
+.moreLink::before {
+  background-image: url(../public/img/basic/btn_icon_bk.webp);
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+@media (hover: hover) {
+  .moreLink:hover {
+    background-color: transparent;
+    color: #343434;
+  }
+  .moreLink:hover::before {
+    opacity: 1;
+  }
+}
+.moreLink:focus-visible {
+  outline: 2px solid #343434;
+  outline-offset: 3px;
+}
+
+@media (max-width: 1100px) {
+  .works {
+    padding: 80px 28px 0;
+  }
+  .title {
+    font-size: clamp(40px, 8vw, 64px);
+  }
+  .list {
+    margin-top: 52px;
+  }
+  .more {
+    margin-top: 64px;
+  }
+}
+@media (max-width: 1300px) {
+  .list {
+    grid-template-columns: repeat(2, minmax(0, 260px));
+    gap: 48px 32px;
+  }
+  .circle {
+    width: min(100%, 260px);
+  }
+}
+@media (max-width: 600px) {
+  .works {
+    padding: 64px 16px 0;
+  }
+  .list {
+    gap: 40px 14px;
+    margin-top: 40px;
+  }
+  .en {
+    margin-top: 20px;
+    font-size: 14px;
+  }
+  .ja {
+    margin-top: 12px;
+    font-size: 15px;
+    letter-spacing: 0.1em;
+    padding-left: 0.1em;
+  }
+  .more {
+    margin-top: 52px;
+  }
+  .moreLink {
+    padding: 16px 44px 16px 30px;
+    font-size: 16px;
+  }
+  .moreLink::after,
+  .moreLink::before {
+    right: 18px;
+    width: 12px;
+    height: 18px;
+  }
+}
+@media (max-width: 380px) {
+  .en {
+    font-size: 13px;
+    letter-spacing: 0.25em;
+    padding-left: 0.25em;
+  }
+  .ja {
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    padding-left: 0.04em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .circle {
+    transition: none;
+  }
+  .link:focus-visible .circle {
+    transform: none;
+  }
+  @media (hover: hover) {
+    .link:hover .circle {
+      transform: none;
+    }
+  }
+}

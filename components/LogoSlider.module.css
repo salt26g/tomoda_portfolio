@@ -1,18 +1,14 @@
-/* ------ スライダー ------
-   画像の並びは、右側に少しはみ出して(--bleed)、「まだ続きがある」ことが分かるようにしている。
-   右の余白(ページの右側のpadding)に合わせて --bleed を調整してください */
 .slider {
-  --gap: 24px; /* カードどうしの間隔 */
-  --visible: 3.8; /* 1画面に見えるカードの枚数(小数 = 最後の1枚が途中まで見える) */
-  --gaps: 3; /* 見えている間隔の数(--visible の整数部分) */
-  --bleed: 40px; /* 右側にはみ出す長さ */
-  --arrow-size: 48px; /* nav_btn.webp の表示サイズ(元は71px) */
-  --arrow-offset: -22px; /* 矢印ボタンを枠の外にどれだけ出すか */
+  --gap: 24px;
+  --visible: 3.8;
+  --gaps: 3;
+  --bleed: 40px;
+  --arrow-size: 48px;
+  --arrow-offset: -22px;
 
   margin-top: 24px;
 }
 
-/* 矢印ボタンの基準になる枠(幅はページの内容幅と同じ) */
 .viewport {
   position: relative;
 }
@@ -20,12 +16,11 @@
 .track {
   display: flex;
   gap: var(--gap);
-  margin: 0 calc(var(--bleed) * -1) 0 0; /* 右にはみ出させる */
+  margin: 0 calc(var(--bleed) * -1) 0 0;
   padding: 0;
   list-style: none;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  /* スクロールバーは隠す(つまみは下のインジケーターで見せる) */
   scrollbar-width: none;
 }
 
@@ -33,13 +28,10 @@
   display: none;
 }
 
-/* インジケーターをドラッグしている間は、カード位置への吸着をやめる(ガタつき防止)。
-   指を離すと、近いカードの位置にそろう */
 .trackDragging {
   scroll-snap-type: none;
 }
 
-/* 画像の並びをつかんで動かしているとき:手のカーソルにして、文字や画像が選択されないようにする */
 .trackGrabbing {
   user-select: none;
 }
@@ -49,13 +41,11 @@
 }
 
 .item {
-  /* 3枚+間隔3つ+0.8枚 = 全体の幅 になるように、カード1枚の幅を決める */
   flex: 0 0 calc((100% - var(--gaps) * var(--gap)) / var(--visible));
   scroll-snap-align: start;
-  position: relative; /* 左上のバッジを、この枠を基準に置くため */
+  position: relative;
 }
 
-/* 画像の左上のバッジ(「採用案」など。文字は画像ごとに自由に書ける) */
 .badge {
   position: absolute;
   top: 12px;
@@ -70,8 +60,8 @@
   font-weight: bold;
   line-height: 1.4;
   letter-spacing: 0.1em;
-  max-width: calc(100% - 24px); /* 文字が長すぎても画像からはみ出さず、折り返す */
-  pointer-events: none; /* クリックやドラッグは、下の画像にそのまま通す */
+  max-width: calc(100% - 24px);
+  pointer-events: none;
 }
 
 .card {
@@ -87,7 +77,6 @@
   transition: opacity 0.3s ease;
 }
 
-/* WORKS一覧と同じ:マウスを乗せると少し薄くなる */
 @media (hover: hover) {
   .card:hover {
     opacity: 0.8;
@@ -96,10 +85,9 @@
 
 .card:focus-visible {
   outline: 2px solid #343434;
-  outline-offset: -4px; /* 横スクロールの枠で切れないよう、内側に出す */
+  outline-offset: -4px;
 }
 
-/* ------ 矢印ボタン(見た目は nav_btn.webp の画像) ------ */
 .arrow {
   position: absolute;
   top: 50%;
@@ -122,7 +110,6 @@
   height: 100%;
 }
 
-/* nav_btn.webp は左向きなので、右向きのボタンは左右を反転する */
 .arrowImageFlip {
   transform: scaleX(-1);
 }
@@ -135,7 +122,6 @@
   right: var(--arrow-offset);
 }
 
-/* これ以上進めないときは薄くして、押せなくする */
 .arrow:disabled {
   opacity: 0.3;
   cursor: default;
@@ -152,14 +138,12 @@
   }
 }
 
-/* ------ インジケーター ------
-   見た目の線は3pxだが、指やマウスで触りやすいように、上下に余白をつけた枠全体を触れるようにしている */
 .indicator {
   width: 50%;
   margin: 18px auto 0;
   padding: 12px 0;
   cursor: pointer;
-  touch-action: none; /* つまみをドラッグしている間、ページが一緒にスクロールしないようにする */
+  touch-action: none;
   user-select: none;
 }
 
@@ -178,10 +162,9 @@
   background-color: #343434;
   border-radius: 2px;
   transform: translateY(-50%);
-  transition: height 0.2s ease; /* 位置にはアニメーションをつけない(スクロールと同時に動かすため) */
+  transition: height 0.2s ease;
 }
 
-/* マウスを乗せる/つかんでいる間は、つまみを太くして「触れる」ことが分かるようにする */
 @media (hover: hover) {
   .indicator:hover .indicatorThumb {
     height: 7px;
@@ -192,11 +175,12 @@
   height: 7px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1100px) {
   .slider {
     --visible: 2.8;
     --gaps: 2;
     --arrow-offset: -12px;
+    --bleed: 28px;
   }
 }
 
@@ -207,6 +191,7 @@
     --gaps: 1;
     --arrow-size: 36px;
     --arrow-offset: -8px;
+    --bleed: 18px;
   }
 
   .indicator {

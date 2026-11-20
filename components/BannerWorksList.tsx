@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
-import Image from "next/image";
+import Image from "@/components/SkeletonImage";
 import { useSearchParams } from "next/navigation";
 import Breadcrumb from "@/components/Breadcrumb";
 import FadeIn from "@/components/FadeIn";
@@ -9,7 +9,6 @@ import BannerModal, { bannerImageSrc, type BannerImage } from "@/components/Bann
 import WorkBadge from "@/components/WorkBadge";
 import styles from "./BannerWorksList.module.css";
 
-// バナーの種類。ボタンの並びも、この順番
 export type BannerCategory = "coupon" | "feature" | "sale";
 
 const CATEGORIES: { key: BannerCategory; label: string }[] = [
@@ -24,39 +23,32 @@ const CATEGORY_LABEL: Record<BannerCategory, string> = {
   sale: "セール",
 };
 
-// バナー1つぶんのデータ
 export type BannerItem = {
-  id: string; // 重複しない文字列
+  id: string;
   category: BannerCategory;
-  date: string; // "2026.10.01" の形(絞り込み後の並び順にも使う)
-  images: BannerImage[]; // 1〜5枚。最初の1枚が、一覧に出るサムネイル(モーダルでサイズ表記を出す画像は { src, size } の形で書く)
-  title?: string; // 画像の説明(省略すると「クーポンバナー」など)
+  date: string;
+  images: BannerImage[];
+  title?: string;
 };
 
-// ページ上部の詳細情報(他の詳細ページと同じ項目)
 export type BannerListData = {
-  tag: string; // 例: "実務制作"
-  title: string; // 例: "Softime バナーデザイン一覧"
-  clientLabel?: string; // 項目名。省略すると「クライアント」(実務制作は "自社案件")
+  tag: string;
+  title: string;
+  clientLabel?: string;
   client: string;
   role: string;
   tools: string;
   duration: string;
 };
 
-// recommend … おすすめ順(bannerData.ts に書いた順番のまま) / new … 新しい順 / old … 古い順
 type SortOrder = "recommend" | "new" | "old";
 
-// "2026-10-01" と "2026.10.01" のどちらで書いても同じに扱う
 const normalizeDate = (date: string) => date.replace(/-/g, ".");
 
-// 種類を3つとも選んでいるのは「すべて」と同じ意味なので、何も選んでいない(空の配列)ことにする。
-// → 3つ目を選んだ瞬間に「すべて」がONに切り替わり、3つはOFFに戻る
 function normalizeCategories(list: BannerCategory[]): BannerCategory[] {
   return list.length === CATEGORIES.length ? [] : list;
 }
 
-// URLの ?category=coupon,sale を、選択中の種類の配列にする
 function parseCategories(value: string | null): BannerCategory[] {
   if (!value) return [];
   const parts = value.split(",");
@@ -65,8 +57,6 @@ function parseCategories(value: string | null): BannerCategory[] {
   );
 }
 
-// スイッチ式のボタン1つぶん(「すべて」と、各種類のボタンで同じものを使う)。
-// ONのときは黒地で白い丸が左に、OFFのときは灰色地で白い丸が右に動く
 function SwitchPill({
   label,
   active,
@@ -107,10 +97,8 @@ export default function BannerWorksList({
 }: {
   data: BannerListData;
   items: BannerItem[];
-  genre?: string; // 「バナー」など。WORKS一覧のカードと同じ表記(works_data.ts から取得)
+  genre?: string;
 }) {
-  // 選択中の種類は、URL(?category=...)をそのまま使う。
-  // → WORKSのリンクから「クーポンだけ選ばれた状態」で開ける。戻るボタンやURLの共有でも状態が保たれる
   const searchParams = useSearchParams();
   const selected = parseCategories(searchParams.get("category"));
   const selectedKey = selected.join(",");
@@ -118,15 +106,11 @@ export default function BannerWorksList({
   const [sortOrder, setSortOrder] = useState<SortOrder>("recommend");
   const [openItem, setOpenItem] = useState<BannerItem | null>(null);
 
-  // 選択する種類を、URLに書き込む(空の配列なら、何も選ばない = 全表示)
   const setCategories = (next: BannerCategory[]) => {
-    // ボタンの並び順にそろえてURLに書く(3つとも選んだときは、何も書かない = 「すべて」)
     const ordered = normalizeCategories(
       CATEGORIES.map((c) => c.key).filter((k) => next.includes(k))
     );
 
-    // category 以外のパラメータ(あれば)はそのまま残す。
-    // カンマは URLSearchParams に任せると「%2C」に変わって見づらいので、自分で組み立てる
     const params = new URLSearchParams(window.location.search);
     params.delete("category");
     const query = [
@@ -136,7 +120,6 @@ export default function BannerWorksList({
       .filter(Boolean)
       .join("&");
 
-    // ページを読み込み直さずに、URLだけ書き換える(useSearchParamsにもすぐ反映される)
     window.history.replaceState(
       null,
       "",
@@ -150,10 +133,8 @@ export default function BannerWorksList({
     );
   };
 
-  // 「すべて」: 選んでいる種類をすべて外して、全表示に戻す
   const clearCategories = () => setCategories([]);
 
-  // 何も選ばれていなければ全表示(WORKSの絞り込みと同じ考え方)
   const visibleItems = useMemo(() => {
     const keys = selectedKey ? selectedKey.split(",") : [];
     const list =
@@ -161,7 +142,6 @@ export default function BannerWorksList({
         ? items
         : items.filter((item) => keys.includes(item.category));
 
-    // おすすめ順は、並べ替えずに bannerData.ts に書いた順のまま
     if (sortOrder === "recommend") return list;
 
     return [...list].sort((a, b) => {
@@ -179,7 +159,6 @@ export default function BannerWorksList({
         items={[{ label: "WORKS", href: "/works" }, { label: data.title }]}
       />
 
-      {/* ------ 上の詳細情報 ------ */}
       <div className={styles.infoHead}>
         <WorkBadge production={data.tag} genre={genre} />
       </div>
@@ -206,14 +185,12 @@ export default function BannerWorksList({
 
       <hr className={styles.divider} />
 
-      {/* ------ 種類のボタン・件数・並べ替え ------ */}
       <div className={styles.filterRow}>
         <div
           className={styles.pills}
           role="group"
           aria-label="バナーの種類で絞り込む"
         >
-          {/* 「すべて」: 何も選んでいないときだけON。押すと、選んだ種類をすべて外す */}
           <SwitchPill
             label="すべて"
             active={selected.length === 0}
@@ -230,7 +207,6 @@ export default function BannerWorksList({
         </div>
 
         <div className={styles.sortArea}>
-          {/* 件数。絞り込みを変えるたびに数字が変わる */}
           <p className={styles.count} aria-live="polite">
             <span className={styles.countNumber}>{visibleItems.length}</span>件
           </p>
@@ -247,11 +223,9 @@ export default function BannerWorksList({
         </div>
       </div>
 
-      {/* ------ バナーの一覧 ------ */}
       {visibleItems.length === 0 ? (
         <p className={styles.empty}>条件に一致するバナーがありません。</p>
       ) : (
-        // key を条件ごとに変えると、条件が変わるたびに一覧が作り直され、全カードがもう一度ふわっと表示される
         <ul key={`${selectedKey}|${sortOrder}`} className={styles.grid}>
           {visibleItems.map((item) => {
             const label = CATEGORY_LABEL[item.category];
@@ -271,11 +245,10 @@ export default function BannerWorksList({
                           src={bannerImageSrc(item.images[0])}
                           alt={item.title ?? `${label}バナー`}
                           fill
-                          sizes="(max-width: 600px) 45vw, (max-width: 1024px) 30vw, 300px"
+                          sizes="(max-width: 600px) 45vw, (max-width: 1100px) 30vw, 300px"
                           style={{ objectFit: "contain" }}
                         />
                       </span>
-                      {/* 別サイズがあることを伝えるバッジ(1サイズだけのときは出さない) */}
                       {count > 1 && (
                         <span className={styles.sizeBadge}>{count}サイズ</span>
                       )}
@@ -297,7 +270,6 @@ export default function BannerWorksList({
         </ul>
       )}
 
-      {/* ------ 全サイズを見るモーダル ------ */}
       {openItem && (
         <BannerModal
           key={openItem.id}

@@ -1,25 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+import Image from "@/components/SkeletonImage";
 import Breadcrumb from "@/components/Breadcrumb";
 import LogoSlider, { logoImageSrc, logoImageBadge, type LogoSliderImage } from "@/components/LogoSlider";
+import SwipeSlider from "@/components/SwipeSlider";
 import WorkBadge from "@/components/WorkBadge";
 import { lockScroll, unlockScroll } from "@/lib/scrollLock";
 import styles from "./LogoWorksDetail.module.css";
 import { useState, useEffect, useRef } from "react";
 import { useLenis } from "lenis/react";
 
-// 閉じるアニメーションの長さ(ミリ秒)。CSSの .modalOverlayClosing の時間と合わせる
 const MODAL_CLOSE_MS = 350;
 
-// 「第一案」「第二案」など、スライダー1つぶんのデータ
 export type LogoWorksSection = {
-  label: string; // 黒いラベルの文字(例:「第一案」)
-  description: string; // ラベルの右に出す1行の説明
-  notes?: string[]; // 説明の下に出す箇条書き(省略すると非表示)
-  // スライダーに並べる画像。左上にバッジを付けたい画像だけ、{ src: "...", badge: "採用案" } の形で書く
-  // (文字は画像ごとに自由。バッジなしの画像は、これまでどおり "..." のままでOK)
+  label: string;
+  description: string;
+  notes?: string[];
   images: LogoSliderImage[];
 };
 
@@ -27,17 +24,17 @@ export type LogoWorksData = {
   title: string;
   tag: string;
   date: string;
-  clientLabel?: string; // 項目名。省略すると「クライアント」(実務制作は "自社案件" と書く)
+  clientLabel?: string;
   client: string;
   role: string;
   tools: string;
   duration: string;
   request: string;
-  url?: string; // 販売ページなどのリンク(省略すると行ごと非表示)
-  urlLabel?: string; // 上のリンクの項目名。省略すると「販売ページ」
-  model?: string; // モデル(省略すると行ごと非表示)。販売ページの下に出る
-  remarks?: string; // ストーリー(省略すると行ごと非表示)
-  thumbnails: string[]; // 上の大きいサムネイル用の画像(クリックでメイン画像が切り替わる)
+  url?: string;
+  urlLabel?: string;
+  model?: string;
+  remarks?: string;
+  thumbnails: string[];
   sections: LogoWorksSection[];
   relatedDesigns?: {
     image: string;
@@ -46,13 +43,12 @@ export type LogoWorksData = {
   }[];
 };
 
-// 拡大モーダルに表示する内容
 type ModalState = {
-  images: string[]; // モーダルのサムネイルに並べる画像
-  badges?: (string | undefined)[]; // 各画像の左上に出すバッジの文字(images と同じ順。省略するとバッジなし)
-  index: number; // いま大きく表示している画像の番号
+  images: string[];
+  badges?: (string | undefined)[];
+  index: number;
   alt: string;
-  syncGallery: boolean; // true のとき、モーダルで選んだ画像を上の大きいサムネイルにも反映する
+  syncGallery: boolean;
 };
 
 export default function LogoWorksDetail({
@@ -60,20 +56,18 @@ export default function LogoWorksDetail({
   genre,
 }: {
   data: LogoWorksData;
-  genre?: string; // 「ロゴ」など。WORKS一覧のカードと同じ表記(works_data.ts から取得)
+  genre?: string;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [modal, setModal] = useState<ModalState | null>(null);
-  const [isClosing, setIsClosing] = useState(false); // 閉じるアニメーション中
+  const [isClosing, setIsClosing] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lenis = useLenis();
   const isModalOpen = modal !== null;
 
-  // アニメーションを見せてから、モーダルを本当に閉じる
   const closeModal = () => {
-    if (isClosing) return; // 連打しても二重に動かさない
+    if (isClosing) return;
 
-    // OSで「視差効果を減らす」設定の人は、アニメーションなしで即閉じる
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
@@ -89,20 +83,17 @@ export default function LogoWorksDetail({
     }, MODAL_CLOSE_MS);
   };
 
-  // モーダルの中でサムネイルを選んだとき
   const selectInModal = (index: number) => {
     setModal((prev) => (prev ? { ...prev, index } : prev));
     if (modal?.syncGallery) setActiveIndex(index);
   };
 
-  // ページ移動などで消えるとき、残っているタイマーを止める
   useEffect(() => {
     return () => {
       if (closeTimer.current) clearTimeout(closeTimer.current);
     };
   }, []);
 
-  // モーダルが開いている間は、後ろの画面をスクロールさせない
   useEffect(() => {
     if (isModalOpen) {
       lenis?.stop();
@@ -119,7 +110,7 @@ export default function LogoWorksDetail({
   }, [isModalOpen, lenis]);
 
   return (
-    <div className={styles.page}>
+    <div>
       <Breadcrumb
         items={[
           { label: "WORKS", href: "/works" },
@@ -128,7 +119,6 @@ export default function LogoWorksDetail({
       />
 
       <div className={styles.contentWrap}>
-        {/* 左カラム:ギャラリー */}
         <div className={styles.gallery}>
           <button
             type="button"
@@ -147,11 +137,20 @@ export default function LogoWorksDetail({
               src={data.thumbnails[activeIndex]}
               alt={data.title}
               fill
-              sizes="(max-width: 1024px) 100vw, 420px"
+              sizes="(max-width: 1100px) 100vw, 420px"
               priority
               style={{ objectFit: "contain" }}
             />
           </button>
+
+          <SwipeSlider
+            images={data.thumbnails}
+            alt={data.title}
+            activeIndex={activeIndex}
+            onChange={setActiveIndex}
+            fit="contain"
+            background="#fff"
+          />
 
           <ul className={styles.thumbList}>
             {data.thumbnails.map((src, index) => (
@@ -177,7 +176,6 @@ export default function LogoWorksDetail({
           </ul>
         </div>
 
-        {/* 右カラム:詳細情報 */}
         <div className={styles.infoCol}>
           <div className={styles.infoHead}>
             <WorkBadge production={data.tag} genre={genre} />
@@ -235,7 +233,6 @@ export default function LogoWorksDetail({
 
       <hr className={styles.divider} />
 
-      {/* 第一案・第二案…のスライダー */}
       {data.sections.map((section) => (
         <section key={section.label} className={styles.section}>
           <div className={styles.sectionHead}>
@@ -267,7 +264,6 @@ export default function LogoWorksDetail({
         </section>
       ))}
 
-      {/* 関連デザイン(WEBデザイン詳細ページと同じ。データがなければ枠ごと非表示) */}
       {data.relatedDesigns && data.relatedDesigns.length > 0 && (
         <section className={styles.related}>
           <h2 className={styles.relatedTitle}>関連デザイン</h2>
@@ -301,7 +297,6 @@ export default function LogoWorksDetail({
         </section>
       )}
 
-      {/* 拡大モーダル */}
       {modal && (
         <div
           className={`${styles.modalOverlay} ${
@@ -315,46 +310,47 @@ export default function LogoWorksDetail({
             }`}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className={styles.modalMain}>
-              <Image
-                src={modal.images[modal.index]}
-                alt={`${modal.alt} 拡大画像${
-                  modal.badges?.[modal.index] ? `(${modal.badges[modal.index]})` : ""
-                }`}
-                fill
-                sizes="(max-width: 1024px) 90vw, 800px"
-                style={{ objectFit: "contain" }}
-              />
-              {/* スライダーと同じ、画像の左上のバッジ(いま大きく表示している画像のぶんだけ出す) */}
-              {modal.badges?.[modal.index] && (
-                <span className={styles.modalBadge} aria-hidden="true">
-                  {modal.badges[modal.index]}
-                </span>
-              )}
-            </div>
+            <div className={styles.modalScroll} data-lenis-prevent>
+              <div className={styles.modalMain}>
+                <Image
+                  src={modal.images[modal.index]}
+                  alt={`${modal.alt} 拡大画像${
+                    modal.badges?.[modal.index] ? `(${modal.badges[modal.index]})` : ""
+                  }`}
+                  fill
+                  sizes="(max-width: 1100px) 90vw, 800px"
+                  style={{ objectFit: "contain" }}
+                />
+                {modal.badges?.[modal.index] && (
+                  <span className={styles.modalBadge} aria-hidden="true">
+                    {modal.badges[modal.index]}
+                  </span>
+                )}
+              </div>
 
-            <ul className={styles.modalThumbGrid}>
-              {modal.images.map((src, index) => (
-                <li key={`${src}-${index}`}>
-                  <button
-                    type="button"
-                    className={`${styles.modalThumbBtn} ${
-                      index === modal.index ? styles.modalThumbActive : ""
-                    }`}
-                    onClick={() => selectInModal(index)}
-                    aria-label={`${index + 1}枚目を表示する`}
-                  >
-                    <Image
-                      src={src}
-                      alt={`サムネイル${index + 1}`}
-                      fill
-                      sizes="120px"
-                      style={{ objectFit: "contain" }}
-                    />
-                  </button>
-                </li>
-              ))}
-            </ul>
+              <ul className={styles.modalThumbGrid}>
+                {modal.images.map((src, index) => (
+                  <li key={`${src}-${index}`}>
+                    <button
+                      type="button"
+                      className={`${styles.modalThumbBtn} ${
+                        index === modal.index ? styles.modalThumbActive : ""
+                      }`}
+                      onClick={() => selectInModal(index)}
+                      aria-label={`${index + 1}枚目を表示する`}
+                    >
+                      <Image
+                        src={src}
+                        alt={`サムネイル${index + 1}`}
+                        fill
+                        sizes="120px"
+                        style={{ objectFit: "contain" }}
+                      />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
             <button
               type="button"

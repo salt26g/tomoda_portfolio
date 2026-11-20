@@ -1,6 +1,3 @@
-/* ------ バナー拡大モーダル ------
-   白い枠(.inner)は、中に並べたバナーの大きさに合わせて決まる。
-   → バナーが1枚なら小さく、5枚なら大きいモーダルになる */
 .overlay {
   position: fixed;
   inset: 0;
@@ -8,9 +5,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px; /* BannerModal.tsx の OVERLAY_PAD と同じ値にする */
+  padding: 40px;
   background-color: rgba(0, 0, 0, 0.75);
-  animation: modalFadeIn 0.4s ease both; /* 背景がふわっと暗くなる */
+  animation: modalFadeIn 0.4s ease both;
 }
 
 .inner {
@@ -18,13 +15,12 @@
   box-sizing: border-box;
   max-width: 100%;
   max-height: 100%;
-  padding: 48px; /* BannerModal.tsx の MODAL_PAD と同じ値にする */
+  padding: 48px;
   background-color: #fff;
   border-radius: 15px;
-  animation: modalPopIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; /* 下から少し浮かび上がる */
+  animation: modalPopIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* PC: 計算した位置にバナーを置く枠 */
 .fitArea {
   position: relative;
 }
@@ -32,18 +28,16 @@
 .banner {
   position: absolute;
   display: block;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06); /* 白っぽいバナーが、白い枠に溶けないように */
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
 }
 
-/* バナーの上のサイズ表記(PC)。枠や太字にしない、ふつうの文字。
-   バナーの左上の真上に置く(バナーの上端から、文字の高さぶん + 少しだけ上) */
 .sizeLabel {
   position: absolute;
   transform: translateY(-100%);
   font-size: 15px;
   font-weight: normal;
   line-height: 1.3;
-  letter-spacing: 0.05em; /* 全体の文字間隔(2px)は広すぎるので、ここだけ狭める */
+  letter-spacing: 0.05em;
   color: #666;
   white-space: nowrap;
   overflow: hidden;
@@ -51,7 +45,6 @@
   pointer-events: none;
 }
 
-/* スマホ・小さい画面: 縦に並べて、モーダルの中でスクロール */
 .innerStack {
   display: flex;
   flex-direction: column;
@@ -62,13 +55,12 @@
 .stackScroll {
   display: flex;
   flex-direction: column;
-  gap: 40px; /* 縦に並べるとき(タブレット・スマホ)の隙間。サイズ表記がどのバナーのものか分かるよう、広めにしている */
-  min-height: 0; /* 枠の高さを超えたぶんだけ、中でスクロールさせる */
+  gap: 40px;
+  min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
 }
 
-/* 1枚ぶん(サイズ表記 + 画像)。画像の元の大きさより広がらないように、最大の幅は画像ごとに指定している */
 .stackItem {
   width: 100%;
   margin: 0 auto;
@@ -117,7 +109,6 @@
   outline-offset: 2px;
 }
 
-/* 大きさを測っている間のくるくる(0.4秒たっても終わらないときだけ見える) */
 .loading {
   width: 28px;
   height: 28px;
@@ -163,12 +154,9 @@
   }
 }
 
-/* 閉じるとき(isClosingのあいだだけ付くクラス)。
-   開くアニメーションより後に書いて、上書きしている。
-   時間はBannerModal.tsxの MODAL_CLOSE_MS(350ms)と合わせる */
 .overlayClosing {
   animation: modalFadeOut 0.35s ease both;
-  pointer-events: none; /* 閉じている最中は、もう一度クリックされないようにする */
+  pointer-events: none;
 }
 
 .innerClosing {
@@ -205,7 +193,6 @@
   }
 }
 
-/* OSで「視差効果を減らす」設定の人には、アニメーションなしで表示する */
 @media (prefers-reduced-motion: reduce) {
   .overlay,
   .inner,

@@ -1,27 +1,15 @@
 import type { BannerItem, BannerListData } from "@/components/BannerWorksList";
 
-// ------ ページ上部の詳細情報 ------
 export const bannerListData: BannerListData = {
   tag: "実務制作",
   title: "Softime バナーデザイン一覧",
-  clientLabel: "自社案件", // 実務制作は「自社案件」。フリーランス制作なら省略(「クライアント」と表示される)
+  clientLabel: "自社案件",
   client: "ULIFE株式会社",
   role: "デザイン",
   tools: "Photoshop / illustrator",
   duration: "1枚あたり約1〜3時間",
 };
 
-// ------ バナーの一覧 ------
-// 1つのバナーに、サイズ違いを1〜5枚まで書けます。
-//   id       … 重複しない文字列
-//   category … "coupon"(クーポン) / "feature"(特集) / "sale"(セール)
-//   date     … "2026.10.01" の形。一覧の新しい順・古い順に使う
-//   ※ 一覧の「おすすめ順」(最初に表示される並び)は、下に書いた順番のままになります
-//   images   … 画像のパス。最初の1枚が一覧のサムネイルになり、
-//              モーダルには書いた順で全部が並ぶ(縦横の大きさは自動で測るので書かなくていい)
-//              モーダルで、画像の上にサイズ表記を出したい画像だけ、{ src: "...", size: "600×400" } の形で書く
-//              (文字は自由。size を書かない画像には、何も出ない)
-//              例) images: [{ src: "/img/bn/1-xxx-1.webp", size: "600×400" }, "/img/bn/1-xxx-2.webp"],
 export const bannerItems: BannerItem[] = [
   {
     id: "1-986770_986766",

@@ -2,39 +2,38 @@
 
 import { useId, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import Image from "@/components/SkeletonImage";
 import Breadcrumb from "@/components/Breadcrumb";
 import WorkBadge from "@/components/WorkBadge";
 import styles from "./WebWorksDetail.module.css";
 
-// images用の画像。文字列だけでもOK、説明文をつけたい時は { src, caption } で書く
 export type WebWorksImage = {
   src: string;
-  caption?: string; // 画像の上に表示する1行の説明(省略すると非表示)
+  caption?: string;
 };
 
 export type WebWorksTab = {
   label: string;
-  pc?: string; // PC版の画像(左・幅広)
-  sp?: string; // SP版の画像(右・幅狭)
-  caption?: string; // pc/sp画像の上に表示する1行の説明(省略すると非表示)
-  images?: (string | WebWorksImage)[]; // 「他デザイン提案」「資料」など、PC/SP以外の画像
+  pc?: string;
+  sp?: string;
+  caption?: string;
+  images?: (string | WebWorksImage)[];
 };
 
 export type WebWorksData = {
   title: string;
   tag: string;
   date: string;
-  mainImage: string; // 一番上のモックアップ画像
-  clientLabel?: string; // 項目名。省略すると「クライアント」(実務制作は "自社案件" と書く)
+  mainImage: string;
+  clientLabel?: string;
   client: string;
-  role: string[]; // 担当業務(「 / 」区切りで表示)
-  tools: { label: string; items: string[] }[]; // 使用ツール(カテゴリごと)
+  role: string[];
+  tools: { label: string; items: string[] }[];
   duration: string;
   request: string;
   url?: string;
   tabs: WebWorksTab[];
-  defaultTab?: number; // 最初に開くタブ(0始まり)。省略時は先頭
+  defaultTab?: number;
   relatedDesigns?: {
     image: string;
     title: string;
@@ -42,8 +41,6 @@ export type WebWorksData = {
   }[];
 };
 
-// 説明文の「：」より前の部分(例:「TOPページA」)を、黒背景・白文字のラベルにして表示する。
-// 「：」(全角)か「:」(半角)がない説明文は、そのままの文字で表示する
 function renderCaption(text: string) {
   const match = text.match(/^(.+?)[：:][\s\u3000]*(.*)$/);
   if (!match) return text;
@@ -57,14 +54,12 @@ function renderCaption(text: string) {
   );
 }
 
-// 別のデザイン詳細ページに移動したとき(関連デザインのリンクなど)、
-// 前のページで選んでいたタブの番号が残らないよう、ページ(title)ごとに作り直す
 export default function WebWorksDetail({
   data,
   genre,
 }: {
   data: WebWorksData;
-  genre?: string; // 「WEBサイト」など。WORKS一覧のカードと同じ表記(works_data.ts から取得)
+  genre?: string;
 }) {
   return <WebWorksDetailInner key={data.title} data={data} genre={genre} />;
 }
@@ -78,15 +73,12 @@ function WebWorksDetailInner({
 }) {
   const baseId = useId();
   const [activeTabState, setActiveTab] = useState(data.defaultTab ?? 0);
-  // タブの数より大きい番号が残っていても、エラーにならないよう範囲内におさめる
   const activeTab = Math.min(activeTabState, Math.max(data.tabs.length - 1, 0));
   const tab = data.tabs[activeTab];
-  // 文字列でも { src, caption } でも同じ形にそろえる
   const images: WebWorksImage[] = (tab.images ?? []).map((img) =>
     typeof img === "string" ? { src: img } : img
   );
 
-  // ← → キーでタブを切り替える
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
     e.preventDefault();
@@ -100,7 +92,7 @@ function WebWorksDetailInner({
   };
 
   return (
-    <div className={styles.page}>
+    <div>
       <Breadcrumb
         items={[
           { label: "WORKS", href: "/works" },
@@ -117,7 +109,6 @@ function WebWorksDetailInner({
 
       <div className={styles.mainImageWrap}>
         {data.url ? (
-          // urlがあれば、画像クリックでサイトを新しいタブで開く
           <a
             href={data.url}
             target="_blank"
@@ -129,7 +120,7 @@ function WebWorksDetailInner({
               src={data.mainImage}
               alt={data.title}
               fill
-              sizes="(max-width: 1024px) 100vw, 900px"
+              sizes="(max-width: 1100px) 100vw, 900px"
               priority
               style={{ objectFit: "contain" }}
             />
@@ -139,7 +130,7 @@ function WebWorksDetailInner({
             src={data.mainImage}
             alt={data.title}
             fill
-            sizes="(max-width: 1024px) 100vw, 900px"
+            sizes="(max-width: 1100px) 100vw, 900px"
             priority
             style={{ objectFit: "contain" }}
           />
@@ -162,7 +153,7 @@ function WebWorksDetailInner({
             {data.tools.map((group) => (
               <div key={group.label} className={styles.toolRow}>
                 <span className={styles.toolLabel}>{group.label}</span>
-                <span className={styles.toolItems}>
+                <span>
                   {group.items.join("  /  ")}
                 </span>
               </div>
@@ -190,7 +181,6 @@ function WebWorksDetailInner({
         )}
       </dl>
 
-      {/* タブ */}
       <div
         className={styles.tabList}
         role="tablist"
@@ -236,10 +226,9 @@ function WebWorksDetailInner({
                 <Image
                   src={tab.pc}
                   alt={`${tab.label} PC版`}
-                  // width/heightは縦横比の目安(実際の表示サイズはCSSで決まる)
                   width={1200}
                   height={2400}
-                  sizes="(max-width: 1024px) 60vw, 560px"
+                  sizes="(max-width: 1100px) 60vw, 560px"
                   style={{ width: "100%", height: "auto" }}
                 />
               </div>
@@ -251,7 +240,7 @@ function WebWorksDetailInner({
                   alt={`${tab.label} SP版`}
                   width={390}
                   height={3400}
-                  sizes="(max-width: 1024px) 24vw, 200px"
+                  sizes="(max-width: 1100px) 24vw, 200px"
                   style={{ width: "100%", height: "auto" }}
                 />
               </div>
@@ -260,7 +249,6 @@ function WebWorksDetailInner({
         )}
 
         {images.length > 0 && (
-          // 1枚なら中央に1枚、2枚以上なら横並び(2列)で表示
           <div
             className={`${styles.extraGrid} ${
               images.length > 1 ? styles.extraGridMulti : ""
@@ -278,8 +266,8 @@ function WebWorksDetailInner({
                   height={800}
                   sizes={
                     images.length > 1
-                      ? "(max-width: 1024px) 48vw, 420px"
-                      : "(max-width: 1024px) 100vw, 800px"
+                      ? "(max-width: 1100px) 48vw, 420px"
+                      : "(max-width: 1100px) 100vw, 800px"
                   }
                   style={{ width: "100%", height: "auto" }}
                 />

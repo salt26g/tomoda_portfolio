@@ -20,7 +20,7 @@ export default function FadeIn({ children, className = "" }: FadeInProps) {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           setIsShow(true);
-          observer.unobserve(entry.target); // 一度表示されたら監視をやめる
+          observer.unobserve(entry.target);
         }
       });
     });

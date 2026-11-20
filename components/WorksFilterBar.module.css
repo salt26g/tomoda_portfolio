@@ -23,7 +23,6 @@
   padding: 8px 0;
 }
 
-/* ------ 絞り込みモード ------ */
 .modeRow {
   display: flex;
   flex-wrap: wrap;
@@ -40,7 +39,6 @@
   cursor: pointer;
 }
 
-/* input自体は見た目を消して、隣の .modeBox を代わりに表示する */
 .modeInput {
   position: absolute;
   width: 1px;
@@ -72,7 +70,6 @@
   outline-offset: 2px;
 }
 
-/* ------ ジャンル / イメージ / ターゲット / 制作 ------ */
 .groupRow {
   display: flex;
   flex-wrap: wrap;
@@ -108,15 +105,13 @@
   color: #fff;
 }
 
-/* ------ 並べ替え ------ */
 .sortRow {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 20px; /* 件数と並べ替えの間隔 */
+  gap: 20px;
 }
 
-/* 件数:数字だけ大きく太くして、「件」は小さく控えめに */
 .count {
   margin: 0;
   font-size: 14px;
@@ -143,4 +138,46 @@
   font-weight: 700;
   color: #343434;
   cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .bar {
+    gap: 16px;
+  }
+  .modeRow {
+    margin-bottom: 10px;
+  }
+  .groupRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 13px;
+  }
+  .groupRow .label {
+    min-width: 0;
+    padding: 0;
+    font-size: 18px;
+  }
+  .pills {
+    flex: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .pill {
+    padding: 11px 4px;
+    text-align: center;
+  }
+  .sortRow {
+    margin-top: 5px;
+  }
+  .sortSelect {
+    padding: 6px 26px 6px 10px;
+    font-size: 13px;
+    background-position: right 10px center;
+  }
+}
+@media (max-width: 380px) {
+  .pill {
+    font-size: 13px;
+  }
 }

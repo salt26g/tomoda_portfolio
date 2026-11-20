@@ -1,4 +1,3 @@
-// components/LenisResizeHandler.tsx
 "use client";
 
 import { useEffect } from "react";

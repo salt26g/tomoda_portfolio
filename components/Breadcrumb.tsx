@@ -24,7 +24,7 @@ export default function Breadcrumb({ items }: BreadcrumbProps) {
               {item.href && !isLast ? (
                 <Link href={item.href}>{item.label}</Link>
               ) : (
-                <span className={styles.current}>{item.label}</span>
+                <span>{item.label}</span>
               )}
             </li>
           );
