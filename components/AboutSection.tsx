@@ -102,7 +102,7 @@ export default function AboutSection() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className={styles.avatar}
-          src="/img/top/me_icon.webp"
+          src="/img/top/me_icon1.webp"
           alt="友田 知怜"
           width={168}
           height={168}
